@@ -1,0 +1,2689 @@
+// импорт библиотек, определение цветовых параметров 
+// создание интерфейса главного меню, добавление
+// кнопок
+
+import processing.serial.*;
+import controlP5.*; 
+import g4p_controls.*;
+import java.awt.Font;
+import processing.pdf.*;
+
+ControlP5 cp5; 
+Serial myPort;  // The serial port
+Serial myPort1;
+PrintWriter output;
+PImage img;
+color cl = color(200,200,250); 
+color cB = color(200,250,200);
+color cBF = color(100,250,100);
+float No,NMax;
+float DatAng,u,def,def1;
+float x,y,x1,y1,t,x0,y0,yr,xr,r,h,Kc;
+int n=300;
+int n2=1000;
+int n3=100;
+int size1=0;
+int Stage,tm,it,statc,hb,i1,ib;
+float xr1,yr1,xr2,yr2,xm,ym,dts;
+float k,m,e,G,a,b,c,D,tb,d,f,x2,l0,g1,tm1,tm2,Ae,Te,lbd;
+float xmax,xmin,xmaxb,xminc,xmaxd,txmax,txmin,txmaxb,xa;
+float txminc,txmaxd,ebc,ecd,E,fr,t0,data,data1,dataR,dataS,dataE,dataK;
+int ic,id,SelP,SelR,SelO,SelC,Dk;
+float L,L1,L2,Lb,H,H0,Ls; 
+float J,J0,mb,M,Ec;
+float T1,T2,T3,Gr;
+ float xmax1,xmin1;
+
+float[] in1 = new float[n3];
+float[] in2 = new float[n3];
+float[] xc = new float[n2];
+float[] tc = new float[n2];
+float[][] xc1 = new float[n2][5];
+int timec=0;
+
+int[] ix = new int[n2];
+int[] in = new int[n2];
+String portName = "";
+String textsnm = ""; 
+String textnm = ""; 
+String texts2nm = ""; 
+String textcm = ""; 
+String textmt = ""; 
+String textdt = ""; 
+String textp1 = ""; 
+String textp2 = ""; 
+String textp3 = ""; 
+String textn1 = ""; 
+String textn2 = ""; 
+String textn3 = ""; 
+String textpl = ""; 
+String textmt1 = ""; 
+
+String textp1d = ""; 
+String textp2d = ""; 
+String textp3d = ""; 
+String textn1d = ""; 
+String textn2d = ""; 
+String textn3d = ""; 
+String textpld = ""; 
+String testType= ""; 
+String textti = ""; 
+String textni = ""; 
+String textsi = ""; 
+String textci = "";
+String textdi = "";
+String fileName="Res"+year()+month()+day()+hour()+minute()+".txt";
+String fileName1=fileName;
+String texts = ""; 
+String texth = ""; 
+String textT = ""; 
+String textt = ""; 
+String textsA = ""; 
+String textsB = ""; 
+String textsC = ""; 
+
+String textcA = ""; 
+String textcB = ""; 
+String textcC = ""; 
+String textfdf= ""; 
+String[][] BaseMS = new String[100][20];
+String[] inParM = new String[20];
+int [] PMN = new int[8];
+String[] items = new String[30];
+int tx=10;
+boolean B1,B2,ScreenB;
+boolean StateSave=true;
+int cnt = 0;
+String[] comList ; 
+int COM=1;
+
+int nl=300;
+int nl1=3000;
+int  klett,kleti;
+char[] BR = new char[nl];
+char [] letchar = new char[nl1];
+
+  String ss1 = "r0";
+String ss2 = "r0";
+String ss3 = "r0";
+
+String ss11 = "00";
+String ss21 = "00";
+String ss31 = "00";
+
+String ss12 = "00";
+String ss22 = "00";
+String ss32 = "00";
+String fileNmB="baseM.csv";
+String DateT = "00.00.2020";
+boolean actual1,actual2,actual3;
+
+DropdownList ports; 
+ControlP5 cp5session1;
+ControlP5 cp5session2;
+GTextArea textfield11; 
+GTextArea textfield12; 
+GTextArea textfield13; 
+GTextArea textfield14; 
+GTextArea textfield15; 
+GTextArea textfield16; 
+//GTextArea textfield17; 
+GDropList textfield17;
+//GTextArea textfield18;
+GDropList textfield18;
+
+GDropList textfield19; 
+
+GDropList textfield110; 
+GDropList textfield111; 
+GDropList textfield112; 
+GDropList textfield113; 
+GTextArea textfield114; 
+GTextArea textfield115; 
+GTextArea textfield116; 
+GTextArea textfield117; 
+GTextArea textfield118; 
+GTextArea textfield119; 
+GTextArea textfield120; 
+GTextArea textfield121; 
+GTextArea textfield122; 
+GTextArea textfield123; 
+GTextArea textfield124; 
+GTextArea textfield125; 
+
+GTextArea textfield21; 
+GTextArea textfield22; 
+GTextArea textfield23; 
+GTextArea textfield24; 
+GTextArea textfield25; 
+GTextArea textfield26; 
+GTextArea textfield27; 
+GTextArea textfield28; 
+GTextArea textfield29; 
+
+GTextArea textfield41;
+GTextArea textfield42;
+GTextArea textfield43;
+GTextArea textfield44;
+
+ Font font1 = new Font("Georgia", Font.PLAIN, 18);
+ 
+//void settings() {
+  //size(w1, h1);
+//  if (!ScreenB){
+// fullScreen(P2D, SPAN); 
+//  } else {}
+//}
+
+
+//mono = loadFont("Georgia.ttf", 32);
+void setup(){
+  
+  PFont font2  = createFont("Georgia",max(height,width)*0.03);
+  textFont(font2);
+  SelP=1;
+  SelR=1;
+  SelO=1;
+  SelC=1;
+  
+  
+  
+  Lb=40.64;
+  Ls=Lb;
+  mb=0.48946;
+  J0=0.1356; 
+  L=10*Lb;
+  
+  PMN[0]=1;
+PMN[1]=1;
+PMN[2]=1;
+PMN[3]=1;
+PMN[4]=1;
+PMN[5]=1;
+PMN[6]=1;
+PMN[7]=1;
+  
+  BR[16]='А';
+  BR[17]='Б';
+  BR[18]='В';
+  BR[19]='Г';
+  BR[20]='Д';
+  BR[21]='Е';
+  BR[22]='Ж';
+  BR[23]='З';
+  BR[24]='И';
+  BR[25]='Й';
+  BR[26]='К';
+  BR[27]='Л';
+  BR[28]='М';
+  BR[29]='Н';
+  BR[30]='О';
+  BR[31]='П';
+  BR[32]='Р';
+  BR[33]='С';
+  BR[34]='Т';
+  BR[35]='у';
+  BR[36]='Ф';
+  BR[37]='Ч';
+  BR[38]='Ц';
+  BR[39]='Ч';
+  BR[40]='Ш';
+  BR[41]='Щ';
+  BR[42]='ъ';
+  BR[43]='Ы'; 
+  BR[44]='ь';
+  BR[45]='Э';
+  BR[46]='Ю';
+  BR[47]='Я';
+  
+  BR[48]='а';
+  BR[49]='б';
+  BR[50]='в';
+  BR[51]='г';
+  BR[52]='д';
+  BR[53]='e';
+  BR[54]='ж';
+  BR[55]='з';
+  BR[56]='и';
+  BR[57]='й';
+  BR[58]='к';
+  BR[59]='л';
+  BR[60]='м';
+  BR[61]='н';
+  BR[62]='о';
+  BR[63]='п';
+  BR[64]='р';
+  BR[65]='с';
+  BR[66]='т';
+  BR[67]='у';
+  BR[68]='ф';
+  BR[69]='х';
+  BR[70]='ц';
+  BR[71]='ч';
+  BR[72]='ш';
+  BR[73]='щ';
+  BR[74]='ъ';
+  BR[75]='ы'; 
+  BR[76]='ь';
+  BR[77]='э';
+  BR[78]='ю';
+  BR[79]='я';
+   String[] lines = loadStrings("Prop.txt");
+   
+    byte bt[] = loadBytes(fileNmB); 
+ //  String[] linesB = loadStrings("baseM.csv");
+   
+//   String[] listB = split(linesB[0], ';');
+   
+   klett=0;  kleti=0;
+for (int i = 0; i < bt.length; i++) { 
+  if (int(bt[i])>176){
+letchar[klett]=BR[int(bt[i])-176];
+}
+ else {
+letchar[klett]=char(bt[i]);
+}
+ klett++;
+ if (int(bt[i])==10){
+   String let1 = new String(letchar);
+   String let=let1.substring(0, klett);
+  String[] listB = split(let, ';');
+  klett=0;
+   
+//  println(listB[0]+" "+listB[1]+" "+listB[2]+" "+listB[3]+" "+listB[4]+" "+listB[5]);  
+ for(int j=0; j< listB.length; j++){
+ //println(listB[j]);  
+  BaseMS[kleti][j]=listB[j];
+  println(BaseMS[kleti][j]);
+  // kleti
+ }
+ kleti++;
+ }
+ 
+   for(int j=1; j< kleti; j++){
+      items[j-1]=BaseMS[j][1];   
+    } 
+ 
+ 
+}  
+
+
+
+ 
+
+  //   for(int i=0; i< linesB.length; i++){
+  // listB = split(linesB[i], ';');
+ //  println("listB.length__"+listB.length);
+ //  for(int j=0; j< listB.length-1; j++){
+  
+ //  println("the1 i__"+i+"__j__"+j +"__B__"+listB[j]+"RПП");
+  //  BaseM[i][j]=listB[j];
+  // println("the2 i"+i+"j"+j +"B"+BaseM[i][j]);
+   
+ //  }
+  //   }
+   
+   
+println("there are " + lines.length + " lines");
+//println("there are in " + lines.length + " lines");
+
+
+if (lines.length==3){
+  println(lines[0]);
+  println(lines[1]);
+  println(lines[2]);
+  
+  COM=int(lines[0]);
+  No=float(lines[1]);
+  NMax=float(lines[2]);
+  L1=float(lines[3]);
+   L2=float(lines[4]);
+   H0=float(lines[5]);
+   H=float(lines[6]);
+  
+  
+}
+  
+  
+  size(displayWidth,displayHeight);
+   
+   //size(displayWidth,displayHeight, PDF, "filename.pdf");
+    surface.setTitle("PTS Module");
+  surface.setResizable(false);
+  surface.setLocation(0, 0);
+  
+  createGUI();
+ printArray(Serial.list());
+  img=loadImage("W.jpg");
+ PFont font = createFont("Georgia",max(height,width)*0.015); 
+ //PFont font1 = createFont("Arial",max(height,width)*0.03); 
+ 
+ 
+ PFont font1  = createFont("Georgia",max(height,width)*0.03);
+ 
+ // 
+cp5session1 = new ControlP5(this);
+cp5session2 = new ControlP5(this);
+  cp5session1.addButton("start")
+  .setPosition(width*0.9,height*0.0)
+ .setSize(int(width*0.1),int(height*0.05))
+  .setFont(font)
+   .setLabel("Выход")
+  .setColorValue(color(0)) 
+  .setColorLabel(color(0)) 
+  .setColorActive(color(0))   
+  .setColorForeground(color(cBF)) 
+ .setColorBackground(color(cB)) ; 
+ 
+   cp5session1.addButton("menu")
+  .setPosition(width*0.0,height*0.0)
+ .setSize(int(width*0.15),int(height*0.05))
+  .setFont(font)
+   .setLabel("Главное меню")
+  .setColorValue(color(0)) 
+  .setColorLabel(color(0)) 
+  .setColorActive(color(0))   
+  .setColorForeground(color(cBF)) 
+ .setColorBackground(color(cB)) ; 
+ 
+  ports = cp5session2.addDropdownList("c")
+  .setPosition(width*0.75,height*0.35)
+   .setBackgroundColor(color(200))
+  .setItemHeight(int(height*0.1))
+.setBarHeight(int(height*0.1))
+ .setSize(int(width*0.2),int(height*0.5))
+  .setFont(font)
+   .setLabel("Выбор СОМ порта")
+  .setColorValue(color(0)) 
+  .setColorLabel(color(0)) 
+  .setColorActive(color(0))   
+  .setColorForeground(color(cBF)) 
+ .setColorBackground(color(cB)) ; 
+   comList = Serial.list();
+  String comlist = join(comList, ",");
+ if (Serial.list().length>0){
+  String COMlist = comList[0];
+  int size2 = COMlist.length();
+size1 = comlist.length() / size2;
+}
+  else {
+ String COMlist = "No ports avalible";
+}
+
+  for(int i=0; i< size1; i++)
+  {   ports.addItem(comList[i],i);  }
+  
+  
+  ///////////////
+ // text("Уровень шума, % ",width*0.4,height*0.6,width*0.5,height*0.05);
+  
+    cp5session2.addButton("nullN")
+  .setPosition(width*0.6,height*0.8)
+ .setSize(int(width*0.15),int(height*0.05))
+  .setFont(font)
+   .setLabel("Ноль")
+  .setColorValue(color(0)) 
+  .setColorLabel(color(0)) 
+  .setColorActive(color(0))   
+  .setColorForeground(color(cBF)) 
+ .setColorBackground(color(cB)) ; 
+ 
+     cp5session2.addButton("maxN")
+  .setPosition(width*0.8,height*0.8)
+ .setSize(int(width*0.15),int(height*0.05))
+  .setFont(font)
+   .setLabel("Максимум")
+  .setColorValue(color(0)) 
+  .setColorLabel(color(0)) 
+  .setColorActive(color(0))   
+  .setColorForeground(color(cBF)) 
+ .setColorBackground(color(cB)) ;
+ 
+    cp5session2.addButton("saveP")
+  .setPosition(width*0.78,height*0.88)
+ .setSize(int(width*0.2),int(height*0.05))
+  .setFont(font)
+   .setLabel("Сохранить настройки")
+  .setColorValue(color(0)) 
+  .setColorLabel(color(0)) 
+  .setColorActive(color(0))   
+  .setColorForeground(color(cBF)) 
+ .setColorBackground(color(cB)) ;
+ 
+  /////////////////////////////////////////////  
+   
+   cp5 = new ControlP5(this); 
+   cp5.addButton("start1")
+  .setPosition(width*0.4,height*0.7)
+ .setSize(int(width*0.1),int(height*0.05))
+  .setFont(font1)
+   .setLabel("Старт")
+  .setColorValue(color(200)) 
+  .setColorLabel(color(0.
+  )) 
+  .setColorActive(color(0))   
+  .setColorForeground(color(100)) 
+ .setColorBackground(color(100,200,200)) ; 
+ 
+    cp5.addButton("start2")
+  .setPosition(width*0.35,height*0.8)
+ .setSize(int(width*0.2),int(height*0.07))
+  .setFont(font1)
+   .setLabel("Настройки")
+  .setColorValue(color(200)) 
+  .setColorLabel(color(0)) 
+  .setColorActive(color(100))   
+  .setColorForeground(color(100)) 
+ // .setColorCaptionLabel(color(150))
+ .setColorBackground(color(100,200,200)) ; 
+ 
+    cp5.addButton("help")
+  .setPosition(width*0.35,height*0.9)
+ .setSize(int(width*0.2),int(height*0.05))
+  .setFont(font1)
+   .setLabel("Справка")
+  .setColorValue(color(200)) 
+  .setColorLabel(color(0)) 
+  .setColorActive(color(0))   
+  .setColorForeground(color(100)) 
+ .setColorBackground(color(100,200,200)) ;  
+ 
+ ////////////////////
+ cp5session1.hide();
+ cp5session2.hide();
+ cp5.show();
+ textfield11.setVisible(false); 
+ textfield12.setVisible(false); 
+ textfield13.setVisible(false); 
+ textfield14.setVisible(false); 
+ textfield15.setVisible(false); 
+ textfield16.setVisible(false); 
+ textfield17.setVisible(false); 
+ textfield18.setVisible(false); 
+ textfield19.setVisible(false); 
+ textfield110.setVisible(false); 
+ textfield111.setVisible(false); 
+ textfield112.setVisible(false); 
+ textfield113.setVisible(false); 
+ textfield114.setVisible(false); 
+ textfield115.setVisible(false); 
+ textfield115.setVisible(false); 
+ textfield115.setVisible(false); 
+ textfield116.setVisible(false); 
+ textfield117.setVisible(false); 
+ textfield118.setVisible(false); 
+ textfield119.setVisible(false); 
+ textfield120.setVisible(false); 
+ textfield121.setVisible(false); 
+ textfield122.setVisible(false); 
+ textfield123.setVisible(false); 
+  textfield124.setVisible(false); 
+ textfield125.setVisible(false); 
+ 
+ 
+ textfield21.setVisible(false); 
+ textfield22.setVisible(false); 
+ textfield23.setVisible(false); 
+ textfield24.setVisible(false); 
+ textfield25.setVisible(false); 
+ textfield26.setVisible(false); 
+ textfield27.setVisible(false); 
+  
+ textfield41.setVisible(false); 
+ textfield42.setVisible(false); 
+ textfield43.setVisible(false); 
+textfield44.setVisible(false);   
+  // Open the port you are using at the rate you want:
+
+  if (Serial.list().length>COM){
+  myPort = new Serial(this, Serial.list()[COM], 9600);  
+ // myPort1 = new Serial(this, Serial.list()[COM], 9600);
+  }
+    
+  n=100;
+Stage=0;SelR=2;
+d=0.01;
+  m=1;
+  k=100;
+  e=-0.2*10;
+  l0=10;
+  g1=9.81*100;
+  D=0.1*1000;
+  tb=0.1/d;
+  a=m/sq(d)+(e+D*exp(-2*tb*d)*d)*0.5/d+(k)/3;
+  b=-2*m/sq(d)+(k)/3;
+  c=m/sq(d)-(e+D*d)*0.5/d+(k)/3;
+}
+
+void createGUI() {
+ textfield11 = new GTextArea(this,width*4/16,height*0.275,width/5,height*0.05);
+  textfield11.setText("Теодор");
+  textfield11.setLocalColorScheme(GCScheme.BLUE_SCHEME);
+  textfield11.setOpaque(true);
+  textfield11.setFont(font1);
+  
+  textfield12 = new GTextArea(this,width*4/16,height*0.375,width/5,height*0.05);
+  textfield12.setText("");
+  textfield12.setLocalColorScheme(GCScheme.BLUE_SCHEME);
+  textfield12.setOpaque(true);
+  textfield12.setFont(font1);
+   
+  textfield13 = new GTextArea(this,width*4/16,height*0.475,width/5,height*0.05);
+  textfield13.setText("");
+  textfield13.setLocalColorScheme(GCScheme.BLUE_SCHEME);
+  textfield13.setOpaque(true);
+   textfield13.setFont(font1); 
+   
+  textfield14 = new GTextArea(this,width*0.5/16,height*0.65,int(width*0.42),int(height*0.25));
+  textfield14.setText("");
+  textfield14.setLocalColorScheme(GCScheme.BLUE_SCHEME);
+  textfield14.setOpaque(true);
+   textfield14.setFont(font1);
+  
+  textfield15 = new GTextArea(this,width*12/16,height*0.275,width/5,int(height*0.05));
+  textfield15.setText("");
+  textfield15.setLocalColorScheme(GCScheme.BLUE_SCHEME);
+  textfield15.setOpaque(true);  
+   textfield15.setFont(font1);
+String Da=str(day());  
+String Mon=str(month());
+if (Mon.length()==1){Mon="0"+Mon;}
+if (Da.length()==1){Da="0"+Da;}
+
+ String Date=Da+"."+Mon+"."+year();
+ 
+ 
+  textfield16 = new GTextArea(this,width*12/16,height*0.375,width/5,int(height*0.05));
+  textfield16.setText(Date);
+  textfield16.setLocalColorScheme(GCScheme.BLUE_SCHEME);
+  textfield16.setOpaque(true);   
+   textfield16.setFont(font1);
+   
+   
+      
+//  for (int i = 0; i < items.length; i++) {
+//    items[i] = "" + (i+1);
+ // }    
+   
+  
+  textfield17 = new GDropList(this,width*11/16,height*0.475,width*0.18,height*0.2);
+  textfield17.setItems(items, 0); // Start with '4' selected  
+ textfield17.setLocalColorScheme(GCScheme.BLUE_SCHEME);
+ textfield17.setOpaque(true);  
+ textfield17.setFont(font1);
+   
+
+     
+  textfield18 = new GDropList(this, width*11/16,height*0.525,width*0.18,height*0.2);
+  textfield18.setItems(items, 0); // Start with '4' selected  
+ textfield18.setLocalColorScheme(GCScheme.BLUE_SCHEME);
+ textfield18.setOpaque(true);  
+ textfield18.setFont(font1);
+ 
+  textfield19 = new GDropList(this,width*11/16,height*0.575,width*0.18,height*0.2);
+  textfield19.setItems(items, 0); // Start with '4' selected  
+ textfield19.setLocalColorScheme(GCScheme.BLUE_SCHEME);
+ textfield19.setOpaque(true);  
+ textfield19.setFont(font1);
+ 
+  textfield110 = new GDropList(this,width*11/16,height*0.625,width*0.18,height*0.2);
+  textfield110.setItems(items, 0); // Start with '4' selected  
+ textfield110.setLocalColorScheme(GCScheme.BLUE_SCHEME);
+ textfield110.setOpaque(true);  
+ textfield110.setFont(font1);
+   
+  textfield111 = new GDropList(this,width*11/16,height*0.675,width*0.18,height*0.2);
+  textfield111.setItems(items, 0); // Start with '4' selected  
+ textfield111.setLocalColorScheme(GCScheme.BLUE_SCHEME);
+ textfield111.setOpaque(true);  
+ textfield111.setFont(font1);
+   
+  textfield112 = new GDropList(this,width*11/16,height*0.725,width*0.18,height*0.2);
+  textfield112.setItems(items, 0); // Start with '4' selected  
+ textfield112.setLocalColorScheme(GCScheme.BLUE_SCHEME);
+ textfield112.setOpaque(true);  
+ textfield112.setFont(font1);
+   
+   textfield113 = new GDropList(this,width*11/16,height*0.775,width*0.18,height*0.2);
+  textfield113.setItems(items, 0); // Start with '4' selected  
+ textfield113.setLocalColorScheme(GCScheme.BLUE_SCHEME);
+ textfield113.setOpaque(true);  
+ textfield113.setFont(font1);
+  ///////////////
+   textfield121 = new GTextArea(this,width*0.3,height*0.3,width/10,int(height*0.05));
+  textfield121.setText("");
+  textfield121.setLocalColorScheme(GCScheme.BLUE_SCHEME);
+  textfield121.setOpaque(true); 
+ textfield121.setFont(font1);
+ textfield122 = new GTextArea(this,width*0.3,height*0.4,width/10,int(height*0.05));
+  textfield122.setText("");
+  textfield122.setLocalColorScheme(GCScheme.BLUE_SCHEME);
+  textfield122.setOpaque(true); 
+   textfield122.setFont(font1);
+  textfield123 = new GTextArea(this,width*0.3,height*0.5,width/10,int(height*0.05));
+  textfield123.setText("");
+  textfield123.setLocalColorScheme(GCScheme.BLUE_SCHEME);
+  textfield123.setOpaque(true); 
+   textfield123.setFont(font1);
+   
+   textfield124 = new GTextArea(this,width*0.3,height*0.6,width/10,int(height*0.05));
+  textfield124.setText("");
+  textfield124.setLocalColorScheme(GCScheme.BLUE_SCHEME);
+  textfield124.setOpaque(true); 
+   textfield124.setFont(font1);  
+   
+  textfield125 = new GTextArea(this,width*0.3,height*0.7,width/10,int(height*0.05));
+  textfield125.setText("");
+  textfield125.setLocalColorScheme(GCScheme.BLUE_SCHEME);
+  textfield125.setOpaque(true); 
+   textfield125.setFont(font1);    
+   
+ ////////////////
+  textfield114 = new GTextArea(this,width*14/16,height*0.475,width/10,int(height*0.05));
+  textfield114.setText("5");
+  textfield114.setLocalColorScheme(GCScheme.BLUE_SCHEME);
+  textfield114.setOpaque(true); 
+  textfield114.setFont(font1);
+  textfield115 = new GTextArea(this,width*14/16,height*0.525,width/10,int(height*0.05));
+  textfield115.setText("5");
+  textfield115.setLocalColorScheme(GCScheme.BLUE_SCHEME);
+  textfield115.setOpaque(true); 
+   textfield115.setFont(font1);
+  textfield116 = new GTextArea(this,width*14/16,height*0.575,width/10,int(height*0.05));
+  textfield116.setText("5");
+  textfield116.setLocalColorScheme(GCScheme.BLUE_SCHEME);
+  textfield116.setOpaque(true);
+   textfield116.setFont(font1);
+  textfield117 = new GTextArea(this,width*14/16,height*0.625,width/10,int(height*0.05));
+  textfield117.setText("5");
+  textfield117.setLocalColorScheme(GCScheme.BLUE_SCHEME);
+  textfield117.setOpaque(true);
+ textfield117.setFont(font1);
+  textfield118 = new GTextArea(this,width*14/16,height*0.675,width/10,int(height*0.05));
+  textfield118.setText("5");
+  textfield118.setLocalColorScheme(GCScheme.BLUE_SCHEME);
+  textfield118.setOpaque(true);  
+   textfield118.setFont(font1);
+  textfield119 = new GTextArea(this,width*14/16,height*0.725,width/10,int(height*0.05));
+  textfield119.setText("5");
+  textfield119.setLocalColorScheme(GCScheme.BLUE_SCHEME);
+  textfield119.setOpaque(true);
+   textfield119.setFont(font1);
+  textfield120 = new GTextArea(this,width*14/16,height*0.775,width/10,int(height*0.05));
+  textfield120.setText("5");
+  textfield120.setLocalColorScheme(GCScheme.BLUE_SCHEME);
+  textfield120.setOpaque(true);
+   textfield120.setFont(font1);
+   ////////////
+   textfield21 = new GTextArea(this,width*2.3/24,height*(0.08+1.4/12-0.015),width/20,int(height*0.05));
+  textfield21.setText("75");
+  textfield21.setLocalColorScheme(GCScheme.BLUE_SCHEME);
+  textfield21.setOpaque(true);
+   textfield21.setFont(font1); 
+   
+  textfield22 = new GTextArea(this,width*2.3/24,height*(0.08+1.9/12-0.015),width/20,int(height*0.05));
+  textfield22.setText("10");
+  textfield22.setLocalColorScheme(GCScheme.BLUE_SCHEME);
+  textfield22.setOpaque(true);
+  textfield22.setFont(font1); 
+
+  textfield23 = new GTextArea(this,width*2.3/24,height*(5.2/12-0.015),width/20,int(height*0.05));
+  textfield23.setText("1");
+  textfield23.setLocalColorScheme(GCScheme.BLUE_SCHEME);
+  textfield23.setOpaque(true);
+  textfield23.setFont(font1); 
+  
+  textfield24 = new GTextArea(this,width*2.3/24,height*(5.8/12-0.015),width/20,int(height*0.05));
+  textfield24.setText("0");
+  textfield24.setLocalColorScheme(GCScheme.BLUE_SCHEME);
+  textfield24.setOpaque(true);
+  textfield24.setFont(font1); 
+
+  textfield25 = new GTextArea(this,width*2.3/24,height*(6.4/12-0.015),width/20,int(height*0.05));
+  textfield25.setText("0");
+  textfield25.setLocalColorScheme(GCScheme.BLUE_SCHEME);
+  textfield25.setOpaque(true);
+  textfield25.setFont(font1);   
+   
+  textfield26 = new GTextArea(this,width*11/24,height*(11.0/12-0.025),width*0.03,height*0.05);
+  textfield26.setText("20");
+  textfield26.setLocalColorScheme(GCScheme.BLUE_SCHEME);
+  textfield26.setOpaque(true);
+  textfield26.setFont(font1);   
+
+  textfield27 = new GTextArea(this,width*20.5/24,height*(0.43+0.08),width/10,height*0.05);
+  textfield27.setText("10");
+  textfield27.setLocalColorScheme(GCScheme.BLUE_SCHEME);
+  textfield27.setOpaque(true);
+  textfield27.setFont(font1);   
+ 
+////////////////////////////////////
+  textfield41 = new GTextArea(this,width*0.45+width*0.25,height*0.35,width/10,height*0.05);
+  textfield41.setText("");
+  textfield41.setLocalColorScheme(GCScheme.BLUE_SCHEME);
+  textfield41.setOpaque(true);
+  textfield41.setFont(font1);   
+
+  textfield42 = new GTextArea(this,width*0.5+width*0.25,height*0.72,width/10,height*0.05);
+  textfield42.setText("1");
+  textfield42.setLocalColorScheme(GCScheme.BLUE_SCHEME);
+  textfield42.setOpaque(true);
+  textfield42.setFont(font1);   
+
+   textfield43 = new GTextArea(this,width*0.5+width*0.25,height*0.77,width/10,height*0.05);
+  textfield43.setText("0");
+  textfield43.setLocalColorScheme(GCScheme.BLUE_SCHEME);
+  textfield43.setOpaque(true);
+  textfield43.setFont(font1); 
+  
+    textfield44 = new GTextArea(this,width*0.5+width*0.25,height*0.82,width/10,height*0.05);
+  textfield44.setText("0");
+  textfield44.setLocalColorScheme(GCScheme.BLUE_SCHEME);
+  textfield44.setOpaque(true);
+  textfield44.setFont(font1); 
+ 
+ data1=0;
+ println("Serial.list().length  "+Serial.list().length);
+}
+
+ void draw(){
+   
+  J=J0+sq((Lb*6.25-Ls)*0.001)*mb*(in2[4]+in2[6])+sq((Lb*3.125-Ls)*0.001)*mb*in2[5];
+  M=(Lb*6.25-Ls)*0.001*mb*(in2[4]-in2[6])+(Lb*3.125-Ls)*0.001*mb*in2[5]; 
+//  println(J0+"  "+mb+"  "+in2[4]+"  "+in2[6]+"  "+in2[5]); 
+  
+  //  PGraphicsPDF pdf = (PGraphicsPDF) g;
+    byte[] inBuffer = new byte[7];
+    if (Serial.list().length>10){
+  while (myPort.available() > 0) {
+  //    if (COM==1){
+    inBuffer = myPort.readBytes();
+    myPort.readBytes(inBuffer);
+  //    } 
+      //else {
+    //inBuffer = myPort.readBytes();
+   // myPort.readBytes(inBuffer);      
+  //    }
+      
+      
+    if (inBuffer != null) {
+      String myString = new String(inBuffer);
+      String[] list = split(myString, '\n');
+      dataS=0;Dk=0;
+       if (list.length>0){
+        for (int i = 0; i < list.length-1; i++) {
+          dataR=float(list[i])-123200000; 
+ if (abs(dataR)<1000){dataS+=dataR;   Dk++;  }   
+        }
+        if (Dk>0){ 
+          data=dataS/float(Dk);
+          dataK=(data-No)*80/(NMax-No);
+          
+        
+          
+          L1=sqrt(sq(L-Ls)+sq(H0));
+  DatAng=acos((sq(L1)+sq(L2)-sq(H+dataK))/(2*L1*L2))-acos((sq(L1)+sq(L2)-sq(H))/(2*L1*L2));
+  u=tan(DatAng)*abs(Lb-Ls);
+  def=u*100/in2[1];
+  
+      }
+      if (abs(data)<1000){
+      data1=data1*0.9+0.1*data;  
+      }
+   //   println(list.length); 
+  //    println(list.length+"  l1  "+Dk+"  l2  "+list[0]+" d "+ data+" d1 "+ data1);     
+    }
+    }}}
+   dts=(millis()-timec)*0.01+0.99*dts;
+ fill(255); 
+   background(200);
+   textSize(20);fill(0);
+   
+   
+   text(nf(dts,2,1),width*0.2,height*0.05);
+    timec=millis();
+   
+   
+xm=0;ym=0;
+if ((millis()-tm)>1000){xm=mouseX;ym=mouseY;}
+if (Stage==0){ 
+  shapem();
+}
+
+if (Stage==12){
+  cp5.hide();
+   cp5session2.show();
+   option();
+   
+if (abs(mouseY-height*0.9)<height*0.05){
+if (abs(mouseX-width/8)<width/10){
+    if (mousePressed == true) { 
+    if ((millis()-tm)>1000){
+   Stage=0;
+   cp5.show();
+    cp5session2.hide();
+    }}}}
+}
+   
+if ((Stage==1)||(Stage==11)){St1();
+cp5.hide();
+textnm = textfield11.getText();
+
+if (textnm.length()>2){
+//println(byte(textnm.charAt(textnm.length()-1)));
+//println(textnm);
+for(int jk=0; jk<textnm.length(); jk++){ 
+//println(jk+" "+textnm.charAt(jk)+" "+byte(textnm.charAt(jk)));
+if ((byte(textnm.charAt(jk))==3200)||((byte(textnm.charAt(jk))==10))){
+  textfield11.setText(textnm.substring(0, jk));
+}}}
+
+textsnm=textfield12.getText();
+
+if (textsnm.length()>2){
+for(int jk=0; jk<textsnm.length(); jk++){ 
+if ((byte(textsnm.charAt(jk))==320)||((byte(textsnm.charAt(jk))==10))){
+  textfield12.setText(textsnm.substring(0, jk));
+}}}
+
+
+texts2nm=textfield13.getText();
+if (texts2nm.length()>2){
+for(int jk=0; jk<texts2nm.length(); jk++){ 
+if ((byte(texts2nm.charAt(jk))==320)||((byte(texts2nm.charAt(jk))==10))){
+  textfield13.setText(texts2nm.substring(0, jk));
+}}}
+
+textcm=textfield14.getText();
+//if (textcm.length()>2){
+//for(int jk=0; jk<textcm.length(); jk++){ 
+//if ((byte(textcm.charAt(jk))==320)||((byte(textcm.charAt(jk))==10))){
+//  textfield14.setText(textcm.substring(0, jk));
+//}}}
+
+
+textmt=textfield15.getText();
+if (textmt.length()>2){
+for(int jk=0; jk<textmt.length(); jk++){ 
+if ((byte(textmt.charAt(jk))==320)||((byte(textmt.charAt(jk))==10))){
+  textfield15.setText(textmt.substring(0, jk));
+}}}
+textdt=textfield16.getText();
+if (textdt.length()>2){
+for(int jk=0; jk<textdt.length(); jk++){ 
+if ((byte(textdt.charAt(jk))==320)||((byte(textdt.charAt(jk))==10))){
+  textfield16.setText(textdt.substring(0, jk));
+}}}
+
+
+textp1=textfield17.getText();
+if (textp1.length()>2){
+for(int jk=0; jk<textp1.length(); jk++){ 
+if ((byte(textp1.charAt(jk))==320)||((byte(textp1.charAt(jk))==10))){
+  textfield17.setText(textp1.substring(0, jk));
+}}}
+
+textp2=textfield18.getText();
+if (textp2.length()>2){
+for(int jk=0; jk<textp2.length(); jk++){ 
+if ((byte(textp2.charAt(jk))==320)||((byte(textp2.charAt(jk))==10))){
+  textfield18.setText(textp2.substring(0, jk));
+}}}
+
+textp3=textfield19.getText();
+if (textp3.length()>2){
+for(int jk=0; jk<textp3.length(); jk++){ 
+if ((byte(textp3.charAt(jk))==320)||((byte(textp3.charAt(jk))==10))){
+  textfield19.setText(textp3.substring(0, jk));
+}}}
+
+
+
+textn1=textfield110.getText();
+if (textn1.length()>2){
+for(int jk=0; jk<textn1.length(); jk++){ 
+if ((byte(textn1.charAt(jk))==320)||((byte(textn1.charAt(jk))==10))){
+  textfield110.setText(textn1.substring(0, jk));
+}}}
+
+
+
+
+textn2=textfield111.getText();
+if (textn2.length()>2){
+for(int jk=0; jk<textn2.length(); jk++){ 
+if ((byte(textn2.charAt(jk))==320)||((byte(textn2.charAt(jk))==10))){
+  textfield111.setText(textn2.substring(0, jk));
+}}}
+
+
+textn3=textfield112.getText();
+if (textn3.length()>2){
+for(int jk=0; jk<textn3.length(); jk++){ 
+if ((byte(textn3.charAt(jk))==320)||((byte(textn3.charAt(jk))==10))){
+  textfield112.setText(textn3.substring(0, jk));
+}}}
+
+
+textpl=textfield113.getText();
+if (textpl.length()>2){
+for(int jk=0; jk<textpl.length(); jk++){ 
+if ((byte(textpl.charAt(jk))==320)||((byte(textpl.charAt(jk))==10))){
+  textfield113.setText(textpl.substring(0, jk));
+}}}
+inParM[0]=textmt;
+//inParM[0]="22";
+inParM[1]=textp1;
+inParM[2]=textp2;
+inParM[3]=textp3;
+inParM[4]=textn1;
+inParM[5]=textn2;
+inParM[6]=textn3;
+inParM[7]=textpl;
+
+for(int jk=1; jk<8; jk++){  
+ if (inParM[jk].length()>2){   
+for(int j=0; j<kleti; j++){  
+  int lenT=min(inParM[jk].length(),BaseMS[j][PMN[jk]].length()); 
+// for(int i=0; i<lenT-1; i++){4
+   String BaseMD=BaseMS[j][PMN[jk]].substring(0, lenT);
+   String BaseML=inParM[jk].substring(0, lenT);
+//    println(" SMD "+BaseMD+" i "+lenT+" ML "+BaseML+" eq "+BaseMD.equals(BaseML));
+if (BaseMD.equals(BaseML)){
+if (!BaseMS[j][PMN[jk]].equals(inParM[jk])){   
+  // println(j+" MD "+inParM[jk].substring(0, lenT)+" i "+lenT+" ML "+BaseMS[j][PMN[jk]]+" textmt.length() "+inParM[jk].length());
+  if (jk==0){textfield15.setText(BaseMS[j][PMN[jk]]);}
+  if (jk==1){textfield17.setText(BaseMS[j][PMN[jk]]);} 
+  if (jk==2){textfield18.setText(BaseMS[j][PMN[jk]]);} 
+  if (jk==3){textfield19.setText(BaseMS[j][PMN[jk]]);}
+  if (jk==4){textfield110.setText(BaseMS[j][PMN[jk]]);}  
+  if (jk==5){textfield111.setText(BaseMS[j][PMN[jk]]);}  
+  if (jk==6){textfield112.setText(BaseMS[j][PMN[jk]]);}  
+  if (jk==7){textfield113.setText(BaseMS[j][PMN[jk]]);}  
+}}}
+}
+ }
+DateT=textdt;
+datecheck();
+if  (textdt.length()>9){
+if (!(actual1&&actual2&&actual3)){
+ textdt=ss11+"."+ss21+"."+ss31;
+ textfield16.setText(textdt); 
+}}
+
+textp1d=textfield114.getText();
+if (textp1d.length()>2){
+for(int jk=0; jk<textp1d.length(); jk++){ 
+if ((byte(textp1d.charAt(jk))==320)||((byte(textp1d.charAt(jk))==10))){
+  textfield114.setText(textp1d.substring(0, jk));
+}}}
+
+
+
+
+textp2d=textfield115.getText();
+if (textp2d.length()>2){
+for(int jk=0; jk<textp2d.length(); jk++){ 
+if ((byte(textp2d.charAt(jk))==320)||((byte(textp2d.charAt(jk))==10))){
+  textfield115.setText(textp2d.substring(0, jk));
+}}}
+
+
+textp3d=textfield116.getText();
+if (textp3d.length()>2){
+for(int jk=0; jk<textp3d.length(); jk++){ 
+if ((byte(textp3d.charAt(jk))==320)||((byte(textp3d.charAt(jk))==10))){
+  textfield116.setText(textp3d.substring(0, jk));
+}}}
+
+
+
+textn1d=textfield117.getText();
+if (textn1d.length()>2){
+for(int jk=0; jk<textn1d.length(); jk++){ 
+if ((byte(textn1d.charAt(jk))==320)||((byte(textn1d.charAt(jk))==10))){
+  textfield117.setText(textn1d.substring(0, jk));
+}}}
+
+
+
+textn2d=textfield118.getText();
+if (textn2d.length()>2){
+for(int jk=0; jk<textn2d.length(); jk++){ 
+if ((byte(textn2d.charAt(jk))==320)||((byte(textn2d.charAt(jk))==10))){
+  textfield118.setText(textn2d.substring(0, jk));
+}}}
+
+
+
+textn3d=textfield119.getText();
+if (textn3d.length()>2){
+for(int jk=0; jk<textn3d.length(); jk++){ 
+if ((byte(textn3d.charAt(jk))==320)||((byte(textn3d.charAt(jk))==10))){
+  textfield119.setText(textn3d.substring(0, jk));
+}}}
+
+
+textpld=textfield120.getText();
+if (textpld.length()>2){
+for(int jk=0; jk<textpld.length(); jk++){ 
+if ((byte(textpld.charAt(jk))==320)||((byte(textpld.charAt(jk))==10))){
+  textfield120.setText(textpld.substring(0, jk));
+}}}
+
+
+
+  textfield11.setVisible(true); 
+  textfield12.setVisible(true); 
+  textfield13.setVisible(true); 
+  textfield14.setVisible(true); 
+  textfield15.setVisible(true); 
+  textfield16.setVisible(true); 
+  textfield17.setVisible(true); 
+  textfield18.setVisible(true); 
+  textfield19.setVisible(true); 
+  textfield110.setVisible(true); 
+  textfield111.setVisible(true); 
+  textfield112.setVisible(true); 
+  textfield113.setVisible(true); 
+  textfield114.setVisible(true); 
+  textfield115.setVisible(true); 
+  textfield116.setVisible(true); 
+  textfield117.setVisible(true); 
+  textfield118.setVisible(true); 
+  textfield119.setVisible(true); 
+  textfield120.setVisible(true); 
+     
+      cp5session1.show();                                        
+ 
+ textfield21.setVisible(false); 
+ textfield22.setVisible(false); 
+ textfield23.setVisible(false); 
+ textfield24.setVisible(false); 
+ textfield25.setVisible(false); 
+ textfield26.setVisible(false); 
+ textfield27.setVisible(false); 
+       
+  textfield41.setVisible(false);      
+  textfield42.setVisible(false); 
+  textfield43.setVisible(false); 
+  textfield44.setVisible(false); 
+    
+   if (Stage==1){
+  textfield121.setVisible(false); 
+  textfield122.setVisible(false); 
+  textfield123.setVisible(false); 
+ textfield124.setVisible(false); 
+  textfield125.setVisible(false); 
+      }
+    err1();
+if (abs(xm-width*14/16)<width*0.1){
+  if (abs(ym-height*0.9)<height*0.05){
+    if (mousePressed == true) { 
+    if ((millis()-tm)>1000){   
+      if (B1){
+      
+  Stage=2;tm=millis();xm=0;ym=0;
+    textfield11.setVisible(false); 
+  textfield12.setVisible(false); 
+  textfield13.setVisible(false); 
+  textfield14.setVisible(false); 
+  textfield15.setVisible(false); 
+  textfield16.setVisible(false); 
+  textfield17.setVisible(false); 
+  textfield18.setVisible(false); 
+  textfield19.setVisible(false); 
+  textfield110.setVisible(false); 
+  textfield111.setVisible(false); 
+  textfield112.setVisible(false); 
+  textfield113.setVisible(false); 
+  textfield114.setVisible(false); 
+  textfield115.setVisible(false); 
+  textfield116.setVisible(false); 
+  textfield117.setVisible(false); 
+  textfield118.setVisible(false); 
+  textfield119.setVisible(false); 
+  textfield120.setVisible(false); 
+  textfield121.setVisible(false); 
+  textfield122.setVisible(false); 
+  textfield123.setVisible(false); 
+  textfield124.setVisible(false); 
+  textfield125.setVisible(false); 
+  
+  textfield21.setVisible(true); 
+  textfield22.setVisible(true); 
+  textfield23.setVisible(true); 
+  textfield24.setVisible(true); 
+  textfield25.setVisible(true); 
+  textfield26.setVisible(true); 
+  textfield27.setVisible(true); 
+      }
+    }}}}
+
+if (mousePressed == true) {
+if (abs(ym-height*0.9)<height*0.05){
+if (abs(xm-width*10.2/16)<width/10){
+  Stage=11;xm=-10000;ym=-10000;tm=millis();
+  
+  }}}
+   
+  if (Stage==11){
+      textfield11.setVisible(false); 
+ textfield12.setVisible(false);  
+  textfield13.setVisible(false); 
+  textfield14.setVisible(false); 
+
+ textfield121.setVisible(true);  
+  textfield122.setVisible(true); 
+  textfield123.setVisible(true); 
+  textfield124.setVisible(true); 
+  textfield125.setVisible(true); 
+     
+textti=textfield121.getText();
+if (textti.length()>2){
+for(int jk=0; jk<textti.length(); jk++){ 
+if ((byte(textti.charAt(jk))==320)||((byte(textti.charAt(jk))==10))){
+  textfield121.setText(textti.substring(0, jk));
+}}}
+
+
+
+textni=textfield122.getText();
+if (textni.length()>2){
+for(int jk=0; jk<textni.length(); jk++){ 
+if ((byte(textni.charAt(jk))==320)||((byte(textni.charAt(jk))==10))){
+  textfield122.setText(textni.substring(0, jk));
+}}}
+textsi=textfield123.getText();
+if (textsi.length()>2){
+for(int jk=0; jk<textsi.length(); jk++){ 
+if ((byte(textsi.charAt(jk))==320)||((byte(textsi.charAt(jk))==10))){
+  textfield123.setText(textsi.substring(0, jk));
+}}}
+textci=textfield124.getText();
+if (textci.length()>2){
+for(int jk=0; jk<textci.length(); jk++){ 
+if ((byte(textci.charAt(jk))==320)||((byte(textci.charAt(jk))==10))){
+  textfield124.setText(textci.substring(0, jk));
+}}}
+textdi=textfield125.getText();
+if (textdi.length()>2){
+for(int jk=0; jk<textdi.length(); jk++){ 
+if ((byte(textdi.charAt(jk))==320)||((byte(textdi.charAt(jk))==10))){
+  textfield125.setText(textdi.substring(0, jk));
+}}}
+//textfield17.setText(textti);
+
+    St11();
+  if (abs(xm-width*3/8)<width/5){
+  if (abs(ym-height*0.9)<height*0.05){
+    
+    
+    if (mousePressed == true) {
+
+    
+      
+      if (textti.length()>1){ 
+        if (textni.length()>1){ 
+        if (textsi.length()>1){ 
+      if (textci.length()>1){ 
+        if (textdi.length()>1){
+          
+          
+ output = createWriter(fileNmB); 
+ 
+ output.println("Дата внесения ингредиента;Наименование ингредиента;Торговая марка;Производитель;CAS №;Нормaтивная документация"); 
+ 
+ for (int i=0;i<kleti;i++){
+ 
+ output.println(BaseMS[i][0]+";"+BaseMS[i][1]+";"+BaseMS[i][2]+";"+BaseMS[i][3]+";"+BaseMS[i][4]+";"+BaseMS[i][5]+";"); 
+
+ }
+ output.println(textti+";"+textni+";"+textsi+";"+textci+";"+textdi+";"+"h;"); 
+ output.println(textti+";"+textni+";"+textsi+";"+textci+";"+textdi+";"+"h;"); 
+ output.flush(); // Writes the remaining data to the file
+ output.close(); // Finishes the file      
+          
+          
+          
+  Stage=1;tm=millis();xm=0;ym=0;
+
+        }}}}}
+
+
+}}
+  } 
+  if (abs(xm-width*1/8)<width/5){
+  if (abs(ym-height*0.9)<height*0.05){
+    if (mousePressed == true) {
+  Stage=1;tm=millis();xm=0;ym=0;}}
+  }  } }  
+if ((Stage==2)||(Stage==4)){St2();
+  texts=textfield21.getText();
+  
+  if (texts.length()>2){
+for(int jk=0; jk<texts.length(); jk++){ 
+if ((byte(texts.charAt(jk))==320)||((byte(texts.charAt(jk))==10))){
+  textfield21.setText(texts.substring(0, jk));
+}}}
+
+  
+  texth=textfield22.getText();
+  
+    if (texth.length()>2){
+for(int jk=0; jk<texth.length(); jk++){ 
+if ((byte(texth.charAt(jk))==320)||((byte(texth.charAt(jk))==10))){
+  textfield22.setText(texth.substring(0, jk));
+}}}
+  
+  textsA=textfield23.getText();
+  
+     if (textsA.length()>2){
+for(int jk=0; jk<textsA.length(); jk++){ 
+if ((byte(textsA.charAt(jk))==320)||((byte(textsA.charAt(jk))==10))){
+  textfield23.setText(textsA.substring(0, jk));
+}}} 
+  
+  textsB=textfield24.getText();
+      if (textsB.length()>2){
+for(int jk=0; jk<textsB.length(); jk++){ 
+if ((byte(textsB.charAt(jk))==320)||((byte(textsB.charAt(jk))==10))){
+  textfield24.setText(textsB.substring(0, jk));
+}}}  
+  
+  
+  textsC=textfield25.getText();
+       if (textsC.length()>2){
+for(int jk=0; jk<textsC.length(); jk++){ 
+if ((byte(textsC.charAt(jk))==320)||((byte(textsC.charAt(jk))==10))){
+  textfield25.setText(textsC.substring(0, jk));
+}}} 
+  
+   textt=textfield26.getText();
+  
+         if (textt.length()>2){
+for(int jk=0; jk<textt.length(); jk++){ 
+if ((byte(textt.charAt(jk))==320)||((byte(textt.charAt(jk))==10))){
+  textfield26.setText(textt.substring(0, jk));
+}}} 
+  
+  textT=textfield27.getText();
+  
+       if (textT.length()>2){
+for(int jk=0; jk<textT.length(); jk++){ 
+if ((byte(textT.charAt(jk))==320)||((byte(textT.charAt(jk))==10))){
+  textfield27.setText(textT.substring(0, jk));
+}}} 
+  
+ 
+  
+err2();
+ if (Stage==2){
+ image(img,width*0.2, height*0.2, width*0.6, height*0.6);
+ }
+  if (Stage==4){
+ image(img,width*0.2, height*0.2, width*0.3, height*0.3);
+ }
+ 
+//  println(Stage);
+if (((millis()-tm)>1000)&&(Stage==2)){
+      if (mousePressed == true) { 
+if (abs(ym-height*0.9)<height*0.05){
+if (abs(xm-width*14/16)<width/10){
+  if (B2){
+  Stage=3;xm=-10000;ym=-10000;tm=millis();
+  
+textfield21.setVisible(false); 
+textfield22.setVisible(false); 
+textfield23.setVisible(false); 
+textfield24.setVisible(false); 
+textfield25.setVisible(false); 
+textfield26.setVisible(false); 
+textfield27.setVisible(false); 
+
+textfield41.setVisible(false);
+textfield42.setVisible(false);
+textfield43.setVisible(false);
+textfield44.setVisible(false);
+        
+  f=0;x=0;x1=0;statc=2;it=0;t=0;G=1;
+  
+ }   
+  }
+ if (abs(xm-width*2/16)<width/5){
+  Stage=1;xm=0;ym=0;tm=millis();
+  } 
+  }}} 
+}
+if (Stage==2){
+if (abs(ym-height*(0.1+6.1/12))<height*0.025){
+if (abs(xm-width*1.0/25)<width/5){
+   if (mousePressed == true) { 
+  Stage=4;xm=-10000;ym=-10000;tm=millis();
+   
+   textfield27.setVisible(false);
+   
+    textfield41.setVisible(true); 
+    textfield42.setVisible(true); 
+   textfield43.setVisible(true); 
+   textfield44.setVisible(true); 
+  }}}}
+  
+if (Stage==4){St4();
+
+ textfdf=textfield41.getText();
+ 
+        if (textfdf.length()>2){
+for(int jk=0; jk<textfdf.length(); jk++){ 
+if ((byte(textfdf.charAt(jk))==320)||((byte(textfdf.charAt(jk))==10))){
+  textfield41.setText(textfdf.substring(0, jk));
+}}} 
+
+  textcA=textfield42.getText();
+  
+        if (textcA.length()>2){
+for(int jk=0; jk<textcA.length(); jk++){ 
+if ((byte(textcA.charAt(jk))==320)||((byte(textcA.charAt(jk))==10))){
+  textfield42.setText(textcA.substring(0, jk));
+}}} 
+  
+  
+  textcB=textfield43.getText();
+  
+         if (textcB.length()>2){
+for(int jk=0; jk<textcB.length(); jk++){ 
+if ((byte(textcB.charAt(jk))==320)||((byte(textcB.charAt(jk))==10))){
+  textfield43.setText(textcB.substring(0, jk));
+}}}  
+  
+  
+  textcC=textfield44.getText();
+         if (textcC.length()>2){
+for(int jk=0; jk<textcC.length(); jk++){ 
+if ((byte(textcC.charAt(jk))==320)||((byte(textcC.charAt(jk))==10))){
+  textfield44.setText(textcC.substring(0, jk));
+}}}   
+  
+  textfield23.setText(textcA);
+  
+if (textcA.length()>2){
+for(int jk=0; jk<textcA.length(); jk++){ 
+if ((byte(textcA.charAt(jk))==320)||((byte(textcA.charAt(jk))==10))){
+  textfield23.setText(textcA.substring(0, jk));
+}}}  
+  
+  textfield24.setText(textcB);
+if (textcB.length()>2){
+for(int jk=0; jk<textcB.length(); jk++){ 
+if ((byte(textcB.charAt(jk))==320)||((byte(textcB.charAt(jk))==10))){
+  textfield24.setText(textcB.substring(0, jk));
+}}}  
+  
+  
+  textfield25.setText(textcC);
+    if (textcC.length()>2){
+for(int jk=0; jk<textcC.length(); jk++){ 
+if ((byte(textcC.charAt(jk))==320)||((byte(textcC.charAt(jk))==10))){
+  textfield25.setText(textcC.substring(0, jk));
+}}}
+    
+    
+    
+ if (mousePressed == true) { 
+if (abs(ym-height*0.9)<height*0.05){
+if (abs(xm-width*0.75)<width/10){
+Stage=2;xm=-10000;ym=-10000;tm=millis();
+
+ textfield27.setVisible(true);
+
+   textfield41.setVisible(false); 
+   textfield42.setVisible(false); 
+   textfield43.setVisible(false); 
+   textfield44.setVisible(false);        
+}}}
+}
+if (Stage==3){St3();
+if ((millis()-tm)>1000){
+if (t>in2[3]){
+  if (statc==1){
+  //    println(t+" t "+in2[3]);
+  xm=-10000;ym=-10000;tm=millis();statc=2;Stage=5;
+
+}}}
+
+if (mousePressed == true) {
+if (abs(ym-height*0.9)<height*0.05){
+if (abs(xm-width*14/16)<width/10){
+  Stage=5;xm=-10000;ym=-10000;tm=millis();
+  }
+ if (abs(xm-width*2/16)<width/10){
+  Stage=2;xm=0;ym=0;tm=millis();
+   textfield21.setVisible(true); 
+   textfield22.setVisible(true); 
+   textfield23.setVisible(true); 
+   textfield24.setVisible(true); 
+   textfield25.setVisible(true); 
+   textfield26.setVisible(true); 
+   textfield27.setVisible(true);                            
+  } 
+  }}
+}
+if (Stage==5){ 
+ //beginRecord(PDF, "PDF"+fileName+".pdf");
+  St5();
+  // endRecord();
+ // if (2>3){  St6();}
+  if ((millis()-tm)>100){
+  if (mousePressed == true) { 
+    if (abs(ym-height*0.9)<height*0.05){
+  if (abs(xm-width*14/16)<width/10){
+    if (StateSave){
+  xm=-10000;ym=-1000;tm=millis();
+   beginRecord(PDF, "PDF"+fileName+".pdf");
+     endRecord();
+  // Stage=7;
+   saveR();
+   selectFolder("Select a folder to process:", "folderSelected");
+   StateSave=true;
+   fileName=fileName1;
+  //St7();
+ //   exit();
+  }}
+ if (abs(xm-width*2/16)<width/10){
+  Stage=3;xm=-1000;ym=-1000;tm=millis();t0=0;
+  } 
+  }}}}
+
+if (Stage==7){ 
+//pdf.nextPage(); 
+ //beginRecord(PDF, "everything.pdf");
+ 
+St7();
+// endRecord();
+//if (StateSave){
+//  if ((millis()-tm)>1000){
+//  if (mousePressed == true) { 
+ //   if (abs(ym-height*0.9)<height*0.05){
+//  if (abs(xm-width*14/16)<width/10){
+//tm=millis();xm=-10000;ym=-10000;StateSave=false;
+//saveR();
+//selectInput("Select a file to process:", "fileSelected");
+//selectFolder("Select a folder to process:", "folderSelected");
+//fileName="D:/pricessingwork/Ers/tt.txt";
+//fileName=fileName.replace('/','\');
+//println(fileName);
+//}}}}}
+
+//fileName=fileName1;
+ if ((millis()-tm)>100){
+ if (mousePressed == true) { 
+if (abs(ym-height*0.9)<height*0.05){
+if (abs(xm-width*1.8/16)<width/5){
+Stage=5;
+xm=-1000;ym=-1000;tm=millis();
+}}}}
+}
+ }
+void St5(){
+   if ((SelR==2)||(SelR==3)||(SelR==1)){
+
+    
+   if (SelR==2){
+  xmax=-1e6;xmin=1e6;
+  xmaxb=-1e6;xminc=1e6;xmaxd=-1e6;
+  int tsx=0;
+  //int tsm=0;
+  int tsn=0;
+  int tix=0;
+  int tin=0;  
+  xmax1=-1e6;xmin1=1e6;  
+  for (int i=1;i<it;i=i+1){     
+  if (xc1[i][1]>xmax1){xmax1=xc1[i][1];}
+  if (xc1[i][1]<xmin1){xmin1=xc1[i][1];}     
+ if (-xc1[i][1]>xmax){tsx=0;}
+ if (-xc1[i][1]<xmax){tsn=0;}
+ xmax=-xc1[i][1]; 
+ if (tsx<tx){tsx++;}
+ if (tsx==tx/2){tix++;ix[tix]=i-tx/2;}
+ if (tsn<tx){tsn++;}
+ if (tsn==tx/2){tin++;in[tin]=i-tx/2;}
+  }
+  Ec=M*in2[0]/(in2[1]*(Ls*0.001)*(xc1[ix[2]][1]*0.001));
+  def1=xc1[ix[2]][1]; 
+ebc=abs(xc1[ix[2]][1]-xc1[in[2]][1])/abs(xc1[ix[2]][1]-xc1[in[1]][1]);
+ecd=abs(xc1[ix[3]][1]-xc1[in[3]][1])/abs(xc1[ix[3]][1]-xc1[in[2]][1]);
+fr=sqrt(1-sq(log(ebc*0.5)))/(abs(xc1[ix[2]][0]-xc1[in[1]][0])+abs(xc1[ix[2]][0]-xc1[in[2]][0]));
+Ae=abs(xc1[ix[2]][1]-xc1[in[1]][1])*0.5*(1+ebc*0.25);
+a=(1+ebc*0.5)*0.5;
+//a=0.5;
+lbd=2*log(abs(xc1[ix[2]][1]*a+xc1[in[2]][1]*(1-a))/abs(xc1[ix[2]][1]*(1-a)+xc1[in[1]][1]*(a)));
+for (int i=0;i<n2;i++){
+Te=(xc1[i][0]-xc1[ix[2]][0]+0*xc1[1][0]);
+xc1[i][2]=-Ae*cos(2*PI*fr*Te)*exp(log(0.5*ebc)*fr*Te);
+xc1[i][3]=xc1[i][1]-xc1[i][2];
+xc1[i][4]=-Ae*exp(lbd*fr*Te)+xc1[int(n2*0.8)][1];
+//xc1[i][2]=xc1[i][1]-abs(xc1[ix[3]][1]-xc1[in[2]][1])*sin(2*PI*fr*(xc1[i][1]-xc1[ix[3]][0]))*exp(ebc*2*PI*fr*(xc1[i][1]-xc1[ix[3]][0]));
+}
+E=sq(fr*2*PI)*J*in2[1]*sq(Ls)*0.001/in2[0];
+//println(fr+" "+in2[1]+" "+Ls+"  "+M+"  "+Ec+"  "+E);
+//text("ebc_"+nf(ebc,1,2)+"_ecd_"+nf(ecd,1,2)+"_E_"+nf(E,1,2),100,height*0.8);
+//xmax=-height*0.15/(xc1[ix[2]][1]-xc1[in[tin]][1]);  
+ stroke(0);
+ strokeWeight(1);
+
+ 
+   boolean kg=true;
+ 
+ for (int i=1;i<tix+1;i=i+1){ 
+   
+       if(kg){
+    if (abs(ix[i]*width*0.6/it+width*0.4-mouseX)<max(height,width)*0.01){
+    if (abs((xc1[ix[i]][1]-xmin1)*height*0.2/(xmax1-xmin1)+height*0.2-mouseY)<max(height,width)*0.01){
+      kg=false;
+      fill(0);
+     text(nf(xc1[in[i]][1],0,2),mouseX,mouseY-height*0.1); 
+      
+    }}}
+   fill(200,100,100); 
+   
+// создание управляющих элементов
+
+ ellipse(ix[i]*width*0.6/it+width*0.4,(xc1[ix[i]][1]-xmin1)*height*0.2/(xmax1-xmin1)+height*0.2,15,15);
+ }
+  
+// kg=true;
+  for (int i=1;i<tin+1;i=i+1){ 
+    
+    
+        if(kg){
+    if (abs(in[i]*width*0.6/it+width*0.4-mouseX)<max(height,width)*0.01){
+    if (abs((xc1[in[i]][1]-xmin1)*height*0.2/(xmax1-xmin1)+height*0.2-mouseY)<max(height,width)*0.01){
+      kg=false;
+      fill(0);
+     text(nf(xc1[in[i]][1],0,2),mouseX,mouseY-height*0.1); 
+      
+    }}}
+
+    
+    fill(100,100,200);
+    
+  ellipse(in[i]*width*0.6/it+width*0.4,(xc1[in[i]][1]-xmin1)*height*0.2/(xmax1-xmin1)+height*0.2,20,20);
+  }
+  fill(250,100,100);
+  ellipse(ix[2]*width*0.6/it+width*0.4,(xc1[ix[2]][1]-xmin1)*height*0.2/(xmax1-xmin1)+height*0.2,25,25);
+  fill(100,100,250);
+  ellipse(in[1]*width*0.6/it+width*0.4,(xc1[in[1]][1]-xmin1)*height*0.2/(xmax1-xmin1)+height*0.2,30,30);
+  ellipse(in[2]*width*0.6/it+width*0.4,(xc1[in[2]][1]-xmin1)*height*0.2/(xmax1-xmin1)+height*0.2,30,30);
+  tm1=tm;
+  if (xc[5]==xmax){  tm2=tc[5]-tm1;  xa=xmax; } 
+ }
+   if (SelR==3){   
+     
+       xmax1=-1e6;xmin1=1e6;  
+  for (int i=1;i<it;i=i+1){     
+  if (xc1[i][1]>xmax1){xmax1=xc1[i][1];}
+  if (xc1[i][1]<xmin1){xmin1=xc1[i][1];}  
+  }
+     
+  float Grh=abs(xc1[1][1]-xc1[it][1]);
+  float Grt=abs(xc1[1][0]-xc1[int(it*0.25)][0]);
+ //     xmax=height*0.15/Grh;            
+    T1=-log((xc1[1][1]-xc1[int(it*0.25)][1])/(xc1[int(it*0.25)][1]-xc1[int(it*0.5)][1])/Grt);
+    T2=-log((xc1[int(it*0.25)][1]-xc1[int(it*0.5)][1])/(xc1[int(it*0.5)][1]-xc1[int(it*0.75)][1])/Grt);
+    T3=-log((xc1[int(it*0.5)][1]-xc1[int(it*0.75)][1])/(xc1[int(it*0.75)][1]-xc1[int(it*1.0)][1])/Grt);      
+  //  T1=-log(xc1[1][1]/xc1[int(it*0.3)][1])/abs(xc1[1][0]-xc1[int(it*0.3)][0]);
+//   T2=-log(xc1[1][1]/xc1[int(it*0.6)][1])/abs(xc1[1][0]-xc1[int(it*0.6)][0]);
+//    T3=-log(xc1[1][1]/xc1[it][1])/abs(xc1[1][0]-xc1[it][0]);   
+   Gr=M*in2[0]/(in2[1]*(Ls*0.001)*(Grh*0.001)); 
+  //  Gr=abs(xc1[1][1]-xc1[it][1]); 
+ // println(Gr+" "+xc1[1][1]+" 1 "+xc1[int(it*0.3)][1]+" 2 "+xc1[int(it*0.6)][1]+" 3 "+xc1[int(it*0.9)][1]+" t "+abs(xc1[1][0]-xc1[int(it*0.3)][0])+" "+abs(xc1[int(it*0.3)][0]-xc1[int(it*0.6)][0])+"  "+abs(xc1[int(it*0.6)][0]-xc1[it][0]));  
+   } 
+strokeWeight(3);
+  line(width*0.4,height*0.15,width*0.4,height*0.5);
+  line(width*0.4,height*0.5,width,height*0.5);
+  strokeWeight(1);
+  for (int i=4;i<11;i=i+1){ 
+  line(i*width*0.1,height*0.15,i*width*0.1,height*0.5);
+  }
+  for (int i=2;i<6;i=i+1){ 
+  line(width*0.4,height*i*0.1,width,height*i*0.1);
+  }
+strokeWeight(3);
+stroke(250,100,100);
+  for (int i=1;i<it;i=i+1){ 
+    
+     //println(i+"  "+xc1[i][1]);
+line((i-1)*width*0.6/it+width*0.4,(xc1[i-1][1]-xmin1)*height*0.2/(xmax1-xmin1)+height*0.2,i*width*0.6/it+width*0.4,(xc1[i][1]-xmin1)*height*0.2/(xmax1-xmin1)+height*0.2);
+// stroke(100,200,100);
+//line((i-1)*width*0.6/n2+width*0.4,xc1[i-1][3]*xmax+height*0.08,i*width*0.6/n2+width*0.4,xc1[i][3]*xmax+height*0.08);
+//stroke(100,100,200);
+//line((i-1)*width*0.6/it+width*0.4,(xc1[i-1][2]-xmin1)*height*0.1/(xmax1-xmin1)+height*0.25,i*width*0.6/it+width*0.4,(xc1[i][2]-xmin1)*height*0.1/(xmax1-xmin1)+height*0.25);
+//stroke(100,200,200);
+//line((i-1)*width*0.6/it+width*0.4,(xc1[i-1][4]-xmin1)*height*0.1/(xmax1-xmin1)+height*0.14,i*width*0.6/it+width*0.4,(xc1[i][4]-xmin1)*height*0.1/(xmax1-xmin1)+height*0.14);
+}
+  stroke(0);strokeWeight(1);
+  }
+  rectMode(CENTER);
+  textAlign(CENTER,CENTER);
+  textSize(max(height,width)*0.03);
+  fill(0);
+  text("Краткий отчет",width/2,height*0.05,width,height*0.1);
+  textSize(max(height,width)*0.02);
+  if (SelR==2){
+   testType="Динамические испытания";
+ }
+ if (SelR==1){
+     testType="Статические испытания";
+ }
+ if (SelR==3){
+   testType=" Испытания  на  релаксацию ";
+ }
+ text(testType,width/2,height*0.1,width,height*0.1);
+ 
+ fill(cl);
+  rect(width*0.58/6,height*0.35,width/6,height*0.45);
+  rect(width*1.5/6,height*0.35,width/6,height*0.45);
+  rect(width*1.05/4,height*0.687,width*0.5,height*0.375);
+  rect(width*2.95/4,height*0.687,width*0.5,height*0.375);
+  
+  textSize(max(height,width)*0.01);
+  fill(0);
+  text("Фамилия оператора",width*0.5/6,height*0.15,width*1.0/6,height*0.1);
+  text("Имя оператора",width*0.5/6,height*0.2,width*1.0/6,height*0.1);
+  text("Отчество оператора",width*0.5/6,height*0.25,width*1.0/6,height*0.1);
+  
+  text("Дата",width*0.5/6,height*0.3,width*1.0/6,height*0.1);
+  text("Время",width*0.5/6,height*0.35,width*1.0/6,height*0.1);
+  text("Шифр материала",width*0.5/6,height*0.4,width*1.0/6,height*0.1);
+  text("Температура испытаний,С",width*0.5/6,height*0.45,width*1.0/6,height*0.1);
+  
+  text(textsnm,width*1.5/6,height*0.15,width*1.0/6,height*0.1);
+  text(textnm,width*1.5/6,height*0.2,width*1.0/6,height*0.1);
+  text(texts2nm,width*1.5/6,height*0.25,width*1.0/6,height*0.1);
+  
+  text(textdt,width*1.5/6,height*0.3,width*1.0/6,height*0.1);
+  text(hour()+" :  "+minute(),width*1.5/6,height*0.35,width*1.0/6,height*0.1);
+  text(textmt,width*1.5/6,height*0.4,width*1.0/6,height*0.1);
+  text(textt,width*1.5/6,height*0.45,width*1.0/6,height*0.1);
+  textSize(max(height,width)*0.02);
+  text("Комментарий",width*0.25,height*0.6,width*0.5,height*0.1);
+  text(textcm,width*0.25,height*0.8,width*0.5,height*0.2);
+  text("Показатели",width*4/6,height*0.52,width*0.25,height*0.1);
+  text("Среднее",width*5.0/6,height*0.52,width*0.25,height*0.1);
+  //text("Единица измерения",width*4.5/6,height*0.6,width*0.2,height*0.1);
+  textSize(max(height,width)*0.01);
+  if (SelC==1){
+  text("Высота образца,мм",width*4/6,height*0.57,width*0.2,height*0.1);
+  text("Площадь основания образца, мм2",width*4/6,height*0.6,width*0.2,height*0.1);
+  
+  text(" "+in2[0],width*5.0/6,height*0.57,width*0.2,height*0.1);
+  text(" "+in2[1],width*5.0/6,height*0.6,width*0.2,height*0.1);
+  
+  }
+  if (SelR==1){
+    
+    if (SelC==1){
+    
+     text("Статический модуль, МПа",width*4/6,height*0.7,width*0.2,height*0.1);
+     
+     if ((Ec>0)&&(Ec<1000)){ 
+       text(nf(Ec,1,2),width*5.0/6,height*0.7,width*0.2,height*0.1);       
+     } else { text("ошибка",width*5.0/6,height*0.7,width*0.2,height*0.1);   }
+     
+    } else {
+      
+      text("Жестость, Н/м",width*4/6,height*0.7,width*0.2,height*0.1);
+      
+      if (Kc>0){ 
+        text(nf(Kc,1,2),width*5.0/6,height*0.7,width*0.2,height*0.1);
+      } else { text("ошибка",width*5.0/6,height*0.7,width*0.2,height*0.1);}
+    }
+     
+     
+      text("Деформация,%",width*4/6,height*0.75,width*0.2,height*0.1);
+
+  text(nf(def1,2,1),width*5.0/6,height*0.75,width*0.2,height*0.1);
+  }
+   if (SelR==2){
+  text("Статический модуль, МПа",width*4/6,height*0.7,width*0.2,height*0.1);
+  text("Динамический модуль, МПа",width*4/6,height*0.75,width*0.2,height*0.1);
+  text("Максимальная деформация,%",width*4/6,height*0.8,width*0.2,height*0.1);
+  text("Логарифмический декремент BCD, %",width*4/6,height*0.85,width*0.2,height*0.1);
+  if ((Ec>0)&&(Ec<1000)){ 
+  text(nf(Ec,1,2),width*5.0/6,height*0.7,width*0.2,height*0.1);
+  } else { text("ошибка",width*5.0/6,height*0.7,width*0.2,height*0.1);}
+    if ((E>0)&&(E<1000)){ 
+  text(nf(E,1,2),width*5.0/6,height*0.75,width*0.2,height*0.1);
+} else {text("ошибка",width*5.0/6,height*0.75,width*0.2,height*0.1);}
+  text(nf(def1,2,1),width*5.0/6,height*0.8,width*0.2,height*0.1);
+  text(nf(ebc,1,2),width*5.0/6,height*0.85,width*0.2,height*0.1);
+   }
+   if (SelR==3){
+    text("Релаксационный модуль, МПа",width*4/6,height*0.65,width*0.2,height*0.1);
+  text("Постоянная релаксации T1, мс",width*4/6,height*0.7,width*0.2,height*0.1);
+  text("Постоянная релаксации T2, мс",width*4/6,height*0.75,width*0.2,height*0.1);
+  text("Постоянная релаксации T3, мс",width*4/6,height*0.8,width*0.2,height*0.1);
+  text("Время оценки постоянной релаксации, с",width*4/6,height*0.85,width*0.5,height*0.1);
+     if ((Gr>0)&&(Gr<1000)){
+  text(nf(Gr,1,2),width*5.0/6,height*0.65,width*0.2,height*0.1);
+     } else {  text("ошибка",width*5.0/6,height*0.65,width*0.2,height*0.1);}
+  text(nf(T1*1000,1,2),width*5.0/6,height*0.7,width*0.2,height*0.1);
+  text(nf(T2*1000,1,2),width*5.0/6,height*0.75,width*0.2,height*0.1);
+  text(nf(T3*1000,1,2),width*5.0/6,height*0.8,width*0.2,height*0.1);
+  text(nf((xc1[0][0]-xc1[int(it/3)][0]),1,2),width*5.0/6,height*0.85,width*0.2,height*0.1);
+   } 
+  
+  fill(cB);
+  if (abs(mouseY-height*0.9)<height*0.05){
+if (abs(mouseX-width*1.8/16)<width/10){
+  fill(cBF);
+}}  
+  rect(width*1.8/16,height*0.9,width/5,height*0.05);
+  fill(0);textAlign(CENTER,CENTER);
+  text("Назад",width*1.8/16,height*0.9,width/5,height*0.05);
+  
+  fill(cB);
+  if (abs(mouseY-height*0.9)<height*0.05){
+if (abs(mouseX-width*14.2/16)<width/10){
+  fill(cBF);
+}}  
+  rect(width*14.2/16,height*0.9,width/5,height*0.05);
+  fill(0);textAlign(CENTER,CENTER);
+  text("Сохранить",width*14.2/16,height*0.9,width/5,height*0.05);
+  }
+  
+   void St7(){
+     
+   rectMode(CENTER);
+  textAlign(CENTER,CENTER);
+  textSize(max(height,width)*0.03);
+  fill(0);
+    strokeWeight(1);
+stroke(0);
+//  text("Вторая страница отчета",width*0.55,height*0.05,width,height*0.1); 
+      fill(cl);
+  rect(width*0.5,height*0.5,width*0.975,height*0.75);
+      fill(0);
+      textSize(max(height,width)*0.01);
+//  text("Релаксационный модуль, МПа",width*2/6,height*0.3,width*0.2,height*0.1);
+ // text("Постоянная релаксации T1, с",width*2/6,height*0.35,width*0.2,height*0.1);
+ // text("Постоянная релаксации T2, с",width*2/6,height*0.4,width*0.2,height*0.1);
+ // text("Постоянная релаксации T3, с",width*2/6,height*0.45,width*0.2,height*0.1);
+ // text("Время оценки постоянной релаксации, с",width*2/6,height*0.5,width*0.2,height*0.1);
+  
+ // text(nf(Gr,1,2),width*3.0/6,height*0.3,width*0.2,height*0.1);
+ // text(nf(T1,1,2),width*3.0/6,height*0.35,width*0.2,height*0.1);
+ // text(nf(T2,1,2),width*3.0/6,height*0.4,width*0.2,height*0.1);
+ // text(nf(T3,1,2),width*3.0/6,height*0.45,width*0.2,height*0.1);
+//  text(nf((xc1[0][0]-xc1[int(n2/3)][0]),1,2),width*3.0/6,height*0.5,width*0.2,height*0.1);
+
+   fill(cB);
+  if (abs(mouseY-height*0.9)<height*0.05){
+if (abs(mouseX-width*1.8/16)<width/10){
+  fill(cBF);
+}}  
+  rect(width*1.8/16,height*0.9,width/5,height*0.05);
+  fill(0);textAlign(CENTER,CENTER);
+  text("Назад",width*1.8/16,height*0.9,width/5,height*0.05);
+    
+ // fill(cB);
+//  if (abs(mouseY-height*0.9)<height*0.05){
+//if (abs(mouseX-width*14.2/16)<width/10){
+//  fill(cBF);
+//}}  
+ // rect(width*14.2/16,height*0.9,width/5,height*0.05);
+ // fill(0);textAlign(CENTER,CENTER);
+//  text("Сохранить",width*14.2/16,height*0.9,width/5,height*0.05);    
+         
+   }
+  
+
+  void folderSelected(File selection) {
+  if (selection == null) {
+    println("Window was closed or the user hit cancel.");
+  } else {
+    println("User selected " + selection.getAbsolutePath());
+    fileName=selection.getAbsolutePath()+"/"+fileName1;
+    saveR();
+    
+  }
+}
+  
+  
+   void saveR(){     
+   output = createWriter(fileName); 
+ output.println("Фамилия оператора:"+textsnm+";"); 
+ output.println("Имя оператора:"+textnm+";"); 
+ output.println("Отчество оператора:"+texts2nm+";"); 
+ output.println("Дата:"+textdt+";"); 
+ output.println("Время"+" час:"+hour()+" мин:"+minute()+";"); 
+ output.println("Шифр материала:"+textmt); 
+ output.println("Полимер 1:"+ textp1+"Содеражание:"+ textp1d+"%;"); 
+ output.println("Полимер 2:"+ textp2+"Содеражание:"+ textp2d+"%;"); 
+ output.println("Полимер 3:"+ textp3+"Содеражание:"+ textp3d+"%;"); 
+ output.println("Наполнитель 1:"+ textn1+"Содеражание:"+ textn1d+"%;"); 
+ output.println("Наполнитель 2:"+ textn2+"Содеражание:"+ textn2d+"%;"); 
+ output.println("Наполнитель 3:"+ textn3+"Содеражание:"+ textn3d+"%;"); 
+ output.println("Пластификатор 1:"+ textpl+"Содеражание:"+ textpld+"%;"); 
+
+ 
+ 
+  
+ output.println("Температура испытаний,С:"+textT+";"); 
+ output.println("Комментарий:"+textcm+";"); 
+ output.println("Средние показатели: "); 
+  output.println("Высота образца,мм:"+in2[1]+";"); 
+  output.println("Площадь основания образца, мм2:"+in2[0]+";");
+  
+  output.println("Тип испытаний:"+testType+";");
+  
+   if (SelR==2){
+ output.println("Динамический модуль,МПа:"+E+";"); 
+
+ output.println("Логарифмический декремент BCD, %:"+ecd+";"); 
+   }
+    if (SelR==1){
+      if (SelC==1){   
+  output.println("Статический модуль, МПа:"+Ec+";"); 
+      } else {
+  output.println("Жесткость, Н/м:"+Kc+";");     
+      }
+  output.println("Деформация,%:"+def1+";"); 
+    }
+    
+      if (SelR==3){ 
+ output.println("Релаксационный модуль, МПа:"+Gr+";"); 
+ output.println("Постоянная релаксации T1, с:"+T1+";"); 
+ output.println("Постоянная релаксации T2, с:"+T2+";"); 
+  output.println("Постоянная релаксации T3, с:"+T3+";"); 
+ output.println("Время оценки постоянной релаксации, с:"+(xc1[0][0]-xc1[int(n2/3)][0])+";"); 
+      }
+ 
+ for (int i=0;i<n2;i=i+1){ 
+output.println("i:" +i+"t:"+xc1[i][0]+"u:"+xc1[i][1]+";"); 
+ }
+ output.flush(); // Writes the remaining data to the file
+ output.close(); // Finishes the file 
+   }   
+  void St6(){
+  
+  textSize(max(height,width)*0.01);
+  fill(cB);
+  if (abs(mouseY-height*0.9)<height*0.05){
+if (abs(mouseX-width*14/16)<width/10){
+  fill(cBF);
+}}  
+  rect(width*14/16,height*0.9,width/5,height*0.05);
+  fill(0);textAlign(CENTER,CENTER);
+  text("Завершить",width*14.0/16,height*0.9,width/5,height*0.05);
+  
+  fill(cB);
+  if (abs(mouseY-height*0.9)<height*0.05){
+if (abs(mouseX-width*2/16)<width/10){
+  fill(cBF);
+}}  
+  rect(width*2.0/16,height*0.9,width/5,height*0.05);
+  fill(0);textAlign(CENTER,CENTER);
+  text("Назад",width*2.0/16,height*0.9,width/5,height*0.05);
+
+  }
+void St3(){
+  
+   rectMode(CENTER);
+  textAlign(CENTER,CENTER);
+  textSize(max(height,width)*0.03);
+  fill(0);
+    strokeWeight(1);
+stroke(0);
+  text(" испытания ",width*0.6,height*0.05,width,height*0.1);
+  
+
+  fill(255,0,0);
+  if (statc==2){
+        fill(255,100,0);
+    }
+  ellipse(width*3.0/4,height*0.4,100,100);
+      fill(0,255,0);  
+    if (statc==1){
+        fill(100,255,0);
+    }
+  ellipse(width*3.0/4,height*0.2,100,100);
+  
+  
+  
+  strokeWeight(1);
+  stroke(0);
+  
+    
+  if (abs(mouseX-width*3/4)<100){
+      if (abs(mouseY-height*0.2)<100){
+       if (mousePressed){
+ f=m*g1;  k=0;  e=0;statc=1;
+ 
+        }}
+        
+
+        
+        
+        if (abs(mouseY-height*0.4)<100){
+          if (mousePressed){
+ f=0;x=0;x1=0;statc=2;it=0;t=0;G=1;t0=millis();
+        }     }
+  }
+   
+    if ((statc==1)){
+      t=(millis()-t0)*0.001;
+    }   else {t=0;t0=millis();} 
+      
+  if (SelR==1){
+    fill(0);
+   text("Статические",width*0.35,height*0.05,width,height*0.1);
+   def1=def;
+    text("Деформация, %",width*0.5,height*0.3,width,height*0.1);
+    text(" "+def1,width*0.5,height*0.4,width,height*0.1);
+    
+    if (SelC==1){
+    text("Статический модуль, МПа",width*0.5,height*0.5,width,height*0.1);     
+    Ec=M*in2[0]/(in2[1]*(Ls*0.001)*(u*0.001)); 
+    text(" "+Ec,width*0.5,height*0.6,width,height*0.1); 
+    } else {
+    text("Жестость, Н/м",width*0.5,height*0.5,width,height*0.1);     
+    Kc=M/((Ls*0.001)*(u*0.001)); 
+    text(" "+Kc,width*0.5,height*0.6,width,height*0.1);       
+      
+      
+    }
+  }
+   if (SelR==3){
+     fill(0);
+   text(" Релаксационные ",width*0.35,height*0.05,width,height*0.1);
+   if (statc==2){t=0;t0=millis();}
+  if ((t<in2[3])&&(statc==1)){
+      t=(millis()-t0)*0.001;
+  G=G/1.006;
+   xc[0]=(1-G)*20;
+       if ((it<n2-10)){
+         
+       //  dts
+       if  ((xc1[it][0]-t)<in2[2]/(float)n2){
+  it++;
+  xc1[it][0]=t;
+  xc1[it][1]=xc[0];
+       }
+  
+      xmax=-height*0.15/(xc1[1][1]-xc1[n2-1][1]);   
+    T1=log(xc1[0][1]/xc1[int(n2/3)][1])/abs(xc1[0][0]-xc1[int(n2/3)][0]);
+   T2=log(xc1[int(n2/3)][1]/xc1[int(n2*2/3)][1])/abs(xc1[int(n2/3)][0]-xc1[int(n2*2/3)][0]);
+   T3=log(xc1[int(n2*2/3)][1]/xc1[n2-1][1])/abs(xc1[int(n2/3)][0]-xc1[n2-1][0]);
+    Gr=xc1[1][1]/xc1[it][1];    
+  
+ // println(xc[0]+"  "+it+"  "+Gr+"  "+xc1[1][1]+"  "+xc1[it][1]);
+  }}
+for (int i=1;i<n2;i=i+1){ 
+xc[n2-i]=xc[n2-i-1];
+tc[n2-i]=tc[n2-i-1];
+}
+   strokeWeight(3);
+  line(width*0.1,height*0.1,width*0.1,height*0.85);
+  line(width*0.1,height*0.85,width*0.9,height*0.85);
+  strokeWeight(1);
+  for (int i=1;i<10;i=i+1){ 
+  line(i*width/10,height*0.1,i*width/10,height*0.85);
+  }
+  for (int i=1;i<9;i=i+1){ 
+line(width*0.1,height*i*0.1,width*0.9,height*i*0.1);
+  }
+strokeWeight(3);
+stroke(250,100,100);
+//xmax=height/100;
+//  for (int i=1;i<n2;i++){   
+//line((1-float(i-1)/n2)*width*0.8+width*0.1,xc[i-1]*xmax+height*0.15,(1-float(i)/n2)*width*0.8+width*0.1,xc[i]*xmax+height*0.15);
+//}
+  } 
+  if (SelR==2){
+    fill(0);
+     text(" Динамические ",width*0.35,height*0.05,width,height*0.1);   
+  if (x>l0){
+  k=100;
+  e=0.2*10;
+  f=m*g1+l0*k;
+  }
+  a=m/sq(d)+(e+D*exp(-tb*d)*d)*0.5/d+(k)/3;
+  b=-2*m/sq(d)+(k)/3;
+  c=m/sq(d)-(e+D*exp(-tb*d)*d)*0.5/d+(k)/3;
+  G=G/1.006;
+  fill(0);
+  if ((t<in2[3])&&(statc==1)){
+  x2=(f-b*x1-c*x)/a;
+  x=x1;
+  x1=x2;
+  xc[0]=x2+(1-G)*20;
+  t=(millis()-t0)*0.001;
+  tc[0]=t;
+}
+if (statc==1){
+    if ((it<n2-10)){
+  it++;
+  xc1[it][0]=t;
+  xc1[it][1]=xc[0];
+  }}
+for (int i=1;i<n2;i=i+1){ 
+xc[n2-i]=xc[n2-i-1];
+tc[n2-i]=tc[n2-i-1];
+}
+  strokeWeight(3);
+  line(width*0.1,height*0.1,width*0.1,height*0.85);
+  line(width*0.1,height*0.85,width*0.9,height*0.85);
+  strokeWeight(1);
+  for (int i=1;i<10;i=i+1){ 
+  line(i*width/10,height*0.1,i*width/10,height*0.85);
+  }
+  for (int i=1;i<9;i=i+1){ 
+line(width*0.1,height*i*0.1,width*0.9,height*i*0.1);
+  }
+strokeWeight(3);
+stroke(250,100,100);
+
+
+
+  }
+  
+ xmax=height/100;
+boolean kg=true;
+  for (int i=1;i<n2;i++){ 
+    
+    if(kg){
+    if (abs((1-float(i-1)/n2)*width*0.8+width*0.1-mouseX)<max(height,width)*0.01){
+    if (abs(xc[i-1]*xmax+height*0.15-mouseY)<max(height,width)*0.01){
+      kg=false;
+     text(nf(xc[i-1],0,2),mouseX,mouseY+height*0.1);     
+    }}} 
+line((1-float(i-1)/n2)*width*0.8+width*0.1,xc[i-1]*xmax+height*0.15,(1-float(i)/n2)*width*0.8+width*0.1,xc[i]*xmax+height*0.15);
+} 
+  
+  
+  textSize(max(height,width)*0.02);
+  
+  
+  pushMatrix();
+rotate(-PI/2.0);
+
+translate(-width*0.25, height*0.1);
+  text("Деформация,  %",0,0);
+popMatrix();
+
+  
+
+  
+text("время,  с",width/2,height*0.9);
+text (nf(t,1,1), width*0.6,height*0.9);
+  stroke(0);
+  textSize(max(height,width)*0.01);
+  fill(cB);
+  if (abs(mouseY-height*0.9)<height*0.05){
+if (abs(mouseX-width*14/16)<width/10){
+  fill(cBF);
+}}  
+  strokeWeight(1);
+  rect(width*14/16,height*0.9,width/5,height*0.05);
+  fill(0);textAlign(CENTER,CENTER);
+  text("Отчет",width*14.0/16,height*0.9,width/5,height*0.05);
+  
+  fill(cB);
+  if (abs(mouseY-height*0.9)<height*0.05){
+if (abs(mouseX-width*2/16)<width/10){
+  fill(cBF);
+}}  
+  rect(width*2.0/16,height*0.9,width/5,height*0.05);
+  fill(0);textAlign(CENTER,CENTER);
+  text("Назад",width*2.0/16,height*0.9,width/5,height*0.05);
+  }
+void St4(){
+  
+  rectMode(CENTER);
+  textAlign(CENTER,CENTER);
+  textSize(max(height,width)*0.02);  
+  fill(cl);
+rect(width*0.5+width*0.25,height*0.55,width*0.48,height*0.8);
+  fill(0);
+  text("Подбор грузов",width*0.5+width*0.25,height*0.2,width/3,height*0.1);
+  
+text("Заданная деформация образца, %",width*0.5+width*0.25,height*0.3,width/2,height*0.1);
+text("Фактическая деформация образца, %",width*0.5+width*0.25,height*0.45,width/2,height*0.1);
+text(" "+def,width*0.5+width*0.25,height*0.55,width/2,height*0.1);
+
+text("Колличество грузов",width*0.5+width*0.25,height*0.65,width/2,height*0.1);
+textAlign(LEFT,CENTER);
+textSize(max(height,width)*0.01);
+text("Ось А",width*0.5+width*0.25,height*0.75,width/3,height*0.1); 
+text("Ось Б",width*0.5+width*0.25,height*0.8,width/3,height*0.1);
+text("Ось В",width*0.5+width*0.25,height*0.85,width/3,height*0.1);
+ 
+ fill(cB);
+ if (abs(mouseY-height*0.9)<height*0.05){
+if (abs(mouseX-width*0.75)<width/10){
+  fill(cBF);
+}}  
+  rect(width*0.5+width*0.25,height*0.9,width/5,height*0.05);
+  fill(0);textAlign(CENTER,CENTER);
+  text("Закрыть",width*0.5+width*0.25,height*0.9,width/5,height*0.05);
+
+ fill(cB);
+ if (abs(mouseY-height*0.9)<height*0.05){
+if (abs(mouseX-width*0.5)<width/10){
+  fill(cBF);
+}}  
+ // rect(width/2,height*0.9,width/5,height*0.05);
+ // fill(0);textAlign(CENTER,CENTER);
+ //text("Назад",width/2,height*0.9,width/5,height*0.05);
+
+  }
+
+void St2(){
+  strokeWeight(1);
+  rectMode(CENTER);
+  textAlign(CENTER,CENTER);
+  textSize(max(height,width)*0.03);
+  fill(0);
+  text("Параметры испытаний",width/2,height*0.1,width,height*0.1);
+  fill(cl);
+  rect(width*1.125/12,(float)height*(1.7/12+0.1),width/6,height*0.25);
+  rect(width*1.125/12,(float)height*(4.85/12+0.1),width/6,height*0.25);
+  rect(width*1.125/12,(float)height*(7.7/12+0.1),width/6,height/5);
+  
+  rect(width*10.875/12,(float)height*(2.0/12+0.1),width/6,height/5);
+  rect(width*10.875/12,(float)height*(4.5/12+0.1),width/6,height/5);
+  rect(width*10.875/12,(float)height*(7.0/12+0.1),width/6,height/5);
+  
+  fill(0);textSize(max(height,width)*0.015);
+  text("Параметры образца",width*1.12/12,height*0.15,width/6,height*0.1);
+  text("Колличество грузов",width*1.12/12,height*0.39,width/6,height*0.1);
+  text("Позиция образца",width*1.12/12,height*0.66,width*1.5/6,height*0.1);
+
+  text("Тип испытаний",width*10.88/12,height*0.2,width/6,height*0.1);
+  text("Длительность измерений",width*10.88/12,height*0.43,width/6,height*0.1);
+  text("Сохранение результатов",width*10.88/12,height*0.63,width/6,height*0.1);
+
+textAlign(LEFT,CENTER);
+textSize(max(height,width)*0.01);
+  text("Площадь,мм^2",width*1.4/24,height*(0.08+1.5/12),width/12,height*0.05);
+  text("Высота,мм",width*1.4/24,height*(0.08+2.0/12),width/12,height*0.05);
+  text("Стандартная",width*1.4/24,height*(0.08+2.5/12),width/12,height*0.05);
+  text("Нестандартная форма",width*1.4/24,height*(0.08+3.0/12),width/12,height*0.05); 
+
+  text("Ось А",width*1.4/24,height*(5.3/12),width/12,height*0.05);
+  text("Ось Б",width*1.4/24,height*(5.9/12),width/12,height*0.05);
+  text("Ось В",width*1.4/24,height*(6.5/12),width/12,height*0.05);
+  
+  text("Положение 1",width*1.4/24,height*(8.5/12),width/12,height*0.05);
+  text("Положение 2",width*1.4/24,height*(9.0/12),width/12,height*0.05);
+  text("Положение 3",width*1.4/24,height*(9.5/12),width/12,height*0.05);
+
+
+r=sq(mouseX-width*3.0/24)+sq(mouseY-height*3.5/12);
+if (r<sq(max(width,height)*0.01)){ 
+  if (mousePressed){
+  SelC=1;
+ }}
+r=sq(mouseX-width*3.0/24)+sq(mouseY-height*4.0/12); 
+if (r<sq(max(width,height)*0.01)){ 
+  if (mousePressed){
+  SelC=0;
+ }} 
+ 
+ 
+ fill(240);
+if (SelC==1){fill(20);}
+ellipse(width*3.0/24,height*3.5/12,max(width,height)*0.02,max(width,height)*0.02);
+ fill(240);
+if (SelC==0){fill(20);}
+ellipse(width*3.0/24,height*4.0/12,max(width,height)*0.02,max(width,height)*0.02);
+r=sq(mouseX-width*3.0/24)+sq(mouseY-height*8.5/12);
+ if (r<sq(max(width,height)*0.01)){ 
+  if (mousePressed){
+  SelP=1;
+  Ls=Lb;
+ }}
+ fill(240);
+if (SelP==1){fill(20);}
+ellipse(width*3.0/24,height*8.5/12,max(width,height)*0.02,max(width,height)*0.02);
+r=sqrt(sq(mouseX-width*3.0/24)+sq(mouseY-height*9.0/12));
+ if (r<max(width,height)*0.01){ 
+   if (mousePressed){
+  SelP=2; 
+  Ls=Lb*2.5;
+ }}
+ fill(240);
+if (SelP==2){fill(20);}
+ellipse(width*3.0/24,height*9.0/12,max(width,height)*0.02,max(width,height)*0.02);
+r=sqrt(sq(mouseX-width*3.0/24)+sq(mouseY-height*9.5/12));
+ if (r<max(width,height)*0.01){
+  if (mousePressed){
+ SelP=3;
+   Ls=Lb*4;
+ }}
+fill(240);
+if (SelP==3){fill(20);}
+ellipse(width*3.0/24,height*9.5/12,max(width,height)*0.02,max(width,height)*0.02);
+fill(0);
+  text("Статические",width*21/24,height*(3.0/12),width/12,height*0.05);
+  text("Динамические",width*21/24,height*(3.5/12),width/12,height*0.05);
+  text("Релаксация",width*21/24,height*(4.0/12),width/12,height*0.05);
+
+r=sq(mouseX-width*23.0/24)+sq(mouseY-height*3.0/12);
+ if (r<sq(max(width,height)*0.01)){
+  if (mousePressed){
+ SelR=1;
+  textfield27.setText("10");
+ }}
+ fill(240);
+if (SelR==1){fill(20);}
+ellipse(width*23.0/24,height*3.0/12,max(width,height)*0.02,max(width,height)*0.02);
+r=sqrt(sq(mouseX-width*23.0/24)+sq(mouseY-height*3.5/12));
+ if (r<max(width,height)*0.01){
+  if (mousePressed){
+ SelR=2; 
+ textfield27.setText("10");
+ 
+ 
+ }}
+ fill(240);
+if (SelR==2){fill(20);}
+ellipse(width*23.0/24,height*3.5/12,max(width,height)*0.02,max(width,height)*0.02);
+r=sqrt(sq(mouseX-width*23.0/24)+sq(mouseY-height*4.0/12));
+ if (r<max(width,height)*0.01){
+  if (mousePressed){
+    
+    
+   if (SelR!=3)
+   {
+ textfield27.setText("100");
+   }
+    
+ SelR=3;
+ 
+ 
+ 
+ }}
+fill(240);
+if (SelR==3){fill(20);}
+ellipse(width*23.0/24,height*4.0/12,max(width,height)*0.02,max(width,height)*0.02);
+fill(0);
+
+  text("Краткий",width*21/24,height*(8.3/12),width/12,height*0.05);
+  text("Полный",width*21/24,height*(8.8/12),width/12,height*0.05);
+
+r=sq(mouseX-width*23.0/24)+sq(mouseY-height*8.3/12);
+ if (r<sq(max(width,height)*0.01)){
+ if (mousePressed){
+ SelO=1;}}
+ fill(240);
+if (SelO==1){fill(20);}
+ellipse(width*23.0/24,height*8.3/12,max(width,height)*0.02,max(width,height)*0.02);
+r=sqrt(sq(mouseX-width*23.0/24)+sq(mouseY-height*8.8/12));
+ if (r<max(width,height)*0.01){
+  if (mousePressed){
+ SelO=2; }}
+ fill(240);
+if (SelO==2){fill(20);}
+ellipse(width*23.0/24,height*8.8/12,max(width,height)*0.02,max(width,height)*0.02);
+fill(0);
+text("Температура испытаний,  С",width*10/24,height*(11.0/12),width/4,height*0.05);
+
+fill(cB);
+if (abs(mouseY-height*0.9)<height*0.05){
+if (abs(mouseX-width*14/16)<width/10){
+  fill(cBF);
+}}  
+
+//if (SelR==3){
+ // if (in2[2]<1000){
+  //  textfield27.setText("100");
+ // }
+//}
+
+  rect(width*14/16,height*0.9,width/5,height*0.05);
+  fill(0);textAlign(CENTER,CENTER);
+  text("Старт",width*14.0/16,height*0.9,width/5,height*0.05);
+  
+  fill(cB);
+  if (abs(mouseY-height*0.9)<height*0.05){
+if (abs(mouseX-width*2/16)<width/10){
+  fill(cBF);
+}}  
+  rect(width*2.0/16,height*0.9,width/5,height*0.05);
+  fill(0);textAlign(CENTER,CENTER);
+  text("Назад",width*2.0/16,height*0.9,width/5,height*0.05);
+
+fill(cB);
+if (abs(mouseY-height*(0.1+6.1/12))<height*0.05){
+if (abs(mouseX-width*2.25/24)<width/10){
+  fill(cBF);
+}}  
+  rect(width*2.25/24,height*(0.09+6.1/12),width*0.8/5,height*0.05);
+  fill(0);textAlign(CENTER,CENTER);
+  text("Подбор груза",width*2.25/24,height*(0.09+6.1/12),width/5,height*0.05);
+}
+void St11(){
+rectMode(CENTER);
+textAlign(CENTER,CENTER);
+textSize(max(height,width)*0.02);
+fill(200,200,250);
+rect(width/4,height*0.55,width/2,height*0.8);
+  fill(0);
+text("Новый ингредиент",width/4,height*0.2,width,height*0.1);
+textSize(max(height,width)*0.01);
+text("Наименование ингридиета",width*0.1,height*0.3,width/4,height*0.1);
+text("Торговая марка",width*0.1,height*0.4,width/4,height*0.1);
+text("Производитель",width*0.1,height*0.5,width/4,height*0.1);
+text("CAS",width*0.1,height*0.6,width/4,height*0.1);
+text("Нормативная документация",width*0.1,height*0.7,width/4,height*0.1);
+fill(cB);
+if (abs(mouseY-height*0.9)<height*0.05){
+if (abs(mouseX-width*3/8)<width/10){
+  fill(cBF);
+}}
+rect(width*3/8,height*0.9,width/5,height*0.05);
+fill(cB);
+if (abs(mouseY-height*0.9)<height*0.05){
+if (abs(mouseX-width*1/8)<width/10){
+  fill(cBF);
+}}
+rect(width/8,height*0.9,width/5,height*0.05);
+strokeWeight(1);
+fill(0);
+text("Добавить",width*3/8,height*0.9,width/5,height*0.05);
+text("Назад",width/8,height*0.9,width/5,height*0.05);
+}
+void err2(){
+  in2[0]=float(texth);
+  in2[1]=float(texts);
+  in2[2]=float(textt);
+  in2[3]=float(textT);
+  in2[4]=float(textsA);
+  in2[5]=float(textsB);
+  in2[6]=float(textsC);
+  B2=false;
+  int e2=0; 
+   for (int i = 0; i < 7; i++) {
+    if ((sq(in2[i])>-1)&&(in2[i]<2000)){
+    e2++;
+    }  }
+  if (e2==7){ B2=true;}
+  else {
+    textSize(max(height,width)*0.02);
+fill(100,0,0);
+text("Некорректные введенные данные",width*4/8,height*0.85,width,height*0.1);
+   // stroke(0);
+  }     }
+void err1(){ 
+  in1[0]=float(textp1d);
+  in1[1]=float(textp2d);
+  in1[2]=float(textp3d);
+  in1[3]=float(textn1d);
+  in1[4]=float(textn2d);
+  in1[5]=float(textn3d);
+  in1[6]=float(textpld); 
+  B1=false;
+  int e1=0;
+  for (int i = 0; i < 7; i++) {
+    if ((sq(in1[i])>-1)&&(in1[i]<200)){
+    e1++;
+    } }
+  if (e1==7){ B1=true;}
+  else {
+    textSize(max(height,width)*0.02);
+fill(100,0,0);
+    text("Некорректные введенные данные",width*6/8,height*0.84,width,height*0.1);
+  }  }
+
+ void St1(){
+  rectMode(CENTER);
+  textAlign(CENTER,CENTER);
+  textSize(max(height,width)*0.03);
+  fill(0);
+  text("Основные сведения",width/2,height*0.1,width,height*0.1);
+  fill(cl);
+  strokeWeight(1);
+  rect(width/4,height*(0.25+0.1),width*0.48,height*0.4);
+  rect(width/4,height*(0.75),width*0.48,height*0.4);
+  rect(width*3/4,height*(0.5+0.05),width*0.48,height*0.8);
+  fill(0);
+  textSize(max(height,width)*0.02);
+  text("Оператор",width/4,height*0.2,width/2,height*0.1);
+  text("Комментарий",width/4,height*0.6,width/2,height*0.1);
+  text("Характеристики материала",width*3/4,height*0.2,width/2,height*0.1); 
+  textAlign(LEFT,CENTER);
+  textSize(max(height,width)*0.01);
+  text("Шифр материала",width*11/16,height*0.3,width/4,height*0.1);
+  text("Дата изготовления",width*11/16,height*0.4,width/4,height*0.1);
+  text("Наименование",width*7/8,height*0.45,width/4,height*0.1);
+  text("Содержание %",width*16/16,height*0.45,width/4,height*0.1);
+  text("Полимер 1",width*11/16,height*0.5,width/4,height*0.1);
+  text("Полимер 2",width*11/16,height*0.55,width/4,height*0.1);
+  text("Полимер 3",width*11/16,height*0.6,width/4,height*0.1);
+  text("Наполнитель 1",width*11/16,height*0.65,width/4,height*0.1);
+  text("Наполнитель 2",width*11/16,height*0.7,width/4,height*0.1);
+  text("Наполнитель 3",width*11/16,height*0.75,width/4,height*0.1);
+  text("Пластификатор",width*11/16,height*0.8,width/4,height*0.1); 
+  text("Имя",width*3/16,height*0.3,width/4,height*0.1);
+  text("Фамилия",width*3/16,height*0.4,width/4,height*0.1);
+  text("Отчество",width*3/16,height*0.5,width/4,height*0.1); 
+  fill(cB);
+if (abs(mouseY-height*0.9)<height*0.05){
+if (abs(mouseX-width*10.2/16)<width/10){
+  fill(cBF);
+}}
+  rect(width*10.2/16,height*0.9,width/5,height*0.05);
+  fill(cB);
+if (abs(mouseY-height*0.9)<height*0.05){
+if (abs(mouseX-width*14/16)<width/10){
+  fill(cBF);
+}}  
+  rect(width*14/16,height*0.9,width/5,height*0.05);
+  fill(0);textAlign(CENTER,CENTER);
+  text("Новый ингредиент",width*10.2/16,height*0.9,width/5,height*0.05);
+  text("Далее",width*14/16,height*0.9,width/5,height*0.05);
+}
+ void shapem(){
+   stroke(0);
+   strokeWeight(max(height,width)*0.02);
+   smooth();
+   strokeCap(ROUND);
+ //  strokeCap(SQUARE);
+   t=-millis();
+   x0=width*0.4;y0=height/2;
+ h=min(width,height)*0.1;r=h;
+   yr=h*sin(t*0.001)*0.5;
+   xr=sqrt(sq(r)-sq(yr));
+   yr1=h*sin(t*0.001)*0.5-0.25*r;
+   xr1=sqrt(sq(r)-sq(yr1));
+   yr2=h*sin(t*0.001)*0.5+0.25*r;
+   xr2=sqrt(sq(r)-sq(yr2));
+   noFill();
+  beginShape();
+  for (int i = 0; i < n; i++) {
+    x=i*2*width*0.2/n;
+y=h*(sin(2*PI*5*i/n+t*0.001))*exp(-i*2.8/n);
+x1=(i+1)*2*width*0.2/n;
+y1=100*sin(2*PI*5*(i+1)/n+t*0.001)*exp(-(i+1)*2.8/n);
+  curveVertex(x+x0,y+y0);
+    }
+    endShape();   
+    strokeWeight(20);
+   fill(200);
+line(x0-r*1.3-xr1,y0-yr1,x0-r*1.3+xr2,y0+yr2);
+line(x0-r*1.3-xr2,y0-yr2,x0-r*1.3+xr1,y0+yr1);
+strokeWeight(10);
+line(x0-r*1.3,y0+0.32*r,x0-r*1.3+r*0.2,y0+0.25*r+r*0.45);
+line(x0-r*1.3,y0+0.32*r,x0-r*1.3-r*0.2,y0+0.25*r+r*0.45);
+line(x0-r*1.3+r*0.2,y0+0.25*r+r*0.45,x0-r*1.3-r*0.2,y0+0.25*r+r*0.45);
+strokeWeight(20);
+   ellipse(x0-r*1.3-xr,y0-yr,r,r);
+   ellipse(x0-r*1.3+xr,y0+yr,r,r);
+ }
+ 
+void option(){
+   rectMode(CENTER);
+    textSize(max(height,width)*0.03);
+  fill(0);
+  textAlign(CENTER,CENTER);
+  text("Настройки",width/2,height*0.1,width,height*0.1);
+  fill(cl); 
+ rect(width/2,height*0.55,width*0.98,height*0.8); 
+   textSize(max(height,width)*0.02);
+     textAlign(LEFT,CENTER);
+  //    rectMode(LEFT);
+   fill(0);
+  text("Колличество доступных портов",width*0.4,height*0.3,width*0.5,height*0.05);
+   text(""+Serial.list().length,width*0.8,height*0.3,width*0.5,height*0.05);
+   
+  text("Выбор COM порта ",width*0.8,height*0.4,width*0.5,height*0.05);
+  text("Данные с датчика ",width*0.4,height*0.5,width*0.5,height*0.05);
+  text(" "+nf(data,3,1),width*0.8,height*0.5,width*0.5,height*0.05);
+  
+  text("Уровень шума, % ",width*0.4,height*0.6,width*0.5,height*0.05);
+  dataE=abs(data-data1)*100.0/data1;
+      text(" "+nf(dataE,1,2),width*0.8,height*0.6,width*0.5,height*0.05); 
+      text("Перемещение штока, мм ",width*0.4,height*0.7,width*0.5,height*0.05); 
+      text(" "+nf(dataK,2,1) ,width*0.8,height*0.7,width*0.5,height*0.05); 
+      rectMode(CENTER);          
+fill(cB);
+if (abs(mouseY-height*0.9)<height*0.05){
+if (abs(mouseX-width/8)<width/10){
+  fill(cBF);
+}}
+rect(width/8,height*0.9,width/5,height*0.05);
+strokeWeight(1);
+stroke(0);
+textAlign(CENTER,CENTER);
+fill(0);
+text("Назад",width/8,height*0.9,width/5,height*0.05);
+  
+}
+   void keyPressed() {
+  if (key == ESC) {  
+    key = 0;    
+  }
+ // if (key==CODED) {
+  //  if (keyCode == java.awt.event.KeyEvent.VK_F3) {  
+ //   ScreenB=false;    
+ // }
+  
+ //   if (keyCode == java.awt.event.KeyEvent.VK_F2) {  
+ //   ScreenB=true;     
+ // }
+ //  println(ScreenB);
+ // }
+}
+
+ void controlEvent(ControlEvent theEvent) { 
+   COM=int(theEvent.controller().getValue());
+   COM=1;
+ println(""+COM);
+}
+
+public void start() {
+  if (frameCount > 0) {
+   exit();
+  }}
+  
+  public void start1() {
+  if (frameCount > 0) {
+   Stage=1;
+  }
+  
+}  
+ public void start2() {
+  if (frameCount > 0) {
+    Stage=12;
+ cp5session2.show();
+  }
+  
+} 
+
+ public void  nullN(){
+   if (frameCount > 0) {
+ No=data1;}
+ }
+ public void  maxN(){
+ if (frameCount > 0) {
+ NMax=data1;}}
+ 
+ public void  saveP(){
+   if (frameCount > 0) {
+ output = createWriter("Prop.txt"); 
+ output.println(COM); 
+ output.println(No); 
+ output.println(NMax); 
+  output.println(L1);
+  output.println(L2);
+   output.println(H0);
+   output.println(H);
+ output.flush(); // Writes the remaining data to the file
+  output.close(); // Finishes the file
+ }}
+ 
+
+ public void menu(){ Stage=0;
+ cp5session1.hide();
+ cp5session2.hide();
+ cp5.show();
+  textfield11.setVisible(false); 
+ textfield12.setVisible(false); 
+ textfield13.setVisible(false); 
+ textfield14.setVisible(false); 
+ textfield15.setVisible(false); 
+ textfield16.setVisible(false); 
+ textfield17.setVisible(false); 
+ textfield18.setVisible(false); 
+ textfield19.setVisible(false); 
+ textfield110.setVisible(false); 
+ textfield111.setVisible(false); 
+ textfield112.setVisible(false); 
+ textfield113.setVisible(false); 
+ textfield114.setVisible(false); 
+ textfield115.setVisible(false); 
+ textfield115.setVisible(false); 
+ textfield115.setVisible(false); 
+ textfield116.setVisible(false); 
+ textfield117.setVisible(false); 
+ textfield118.setVisible(false); 
+ textfield119.setVisible(false); 
+ textfield120.setVisible(false); 
+ textfield121.setVisible(false); 
+ textfield122.setVisible(false); 
+ textfield123.setVisible(false); 
+  textfield124.setVisible(false); 
+ textfield125.setVisible(false); 
+ 
+ 
+ textfield21.setVisible(false); 
+  textfield22.setVisible(false); 
+  textfield23.setVisible(false); 
+  textfield24.setVisible(false); 
+  textfield25.setVisible(false); 
+  textfield26.setVisible(false); 
+  textfield27.setVisible(false); 
+  
+  textfield41.setVisible(false); 
+  textfield42.setVisible(false); 
+  textfield43.setVisible(false); 
+  textfield44.setVisible(false); 
+ } 
+ void datecheck(){
+if  (DateT.length()>9){
+ ss1 = DateT.substring(0, 2);
+ ss2 = DateT.substring(3, 5);
+ ss3 = DateT.substring(6, textdt.length());
+
+ actual1 = ss1.matches("-?[0-9]+")&&(int(ss1)<32)&&(int(ss1)>-1); // magic here
+ actual2 = ss2.matches("-?[0-9]+")&&(int(ss2)<13)&&(int(ss2)>-1); // magic here
+ actual3 = ss3.matches("-?[0-9]+")&&(int(ss3)<3000)&&(int(ss3)>2019); // magic here
+
+//println(ss1+"  "+ss2+"  "+ss3+" 1 "+actual1+" 2 "+actual2+" 3 "+actual3);
+
+if (actual1){ ss11=ss1;ss12=ss1;} else {ss12="00";}
+if (actual2){ ss21=ss2;ss22=ss2;} else {ss22="00";}
+if (actual3){ ss31=ss3;ss32=ss3;} else {ss32="2020";} 
+ }}
